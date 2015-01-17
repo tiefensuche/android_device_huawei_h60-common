@@ -1,0 +1,6 @@
+[
+  {
+    "repository": "android_kernel_huawei_h60",
+    "target_path": "kernel/huawei/h60"
+  }
+]
