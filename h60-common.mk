@@ -110,11 +110,11 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/libnfc-nxp.conf:system/etc/libnfc-nxp.conf
 
 PRODUCT_PACKAGES += \
-	nfc.exynos4 \
 	libnfc \
 	libnfc_jni \
 	Nfc \
-	Tag
+	Tag \
+	com.android.nfc_extras
 	
 PRODUCT_COPY_FILES += \
 	packages/apps/Nfc/migrate_nfc.txt:system/etc/updatecmds/migrate_nfc.txt \
@@ -130,9 +130,6 @@ endif
 
 PRODUCT_COPY_FILES += \
 	$(NFCEE_ACCESS_PATH):system/etc/nfcee_access.xml
-
-PRODUCT_PACKAGES += \
-	com.android.nfc_extras
 
 $(call inherit-product, vendor/cm/config/nfc_enhanced.mk)
 
