@@ -47,9 +47,9 @@ TARGET_PROVIDES_INIT_TARGET_RC := true
 
 # Kernel
 BOARD_KERNEL_CMDLINE := 'vmalloc=384M mem=2044m@0x200000 psci=enable mmcparts=mmcblk0:p1(vrl),p2(vrl_backup),p7(modemnvm_factory),p18(splash),p22(dfx),p23(modemnvm_backup),p24(modemnvm_img),p25(modemnvm_system),p26(modem),p27(modem_dsp),p28(modem_om),p29(modemnvm_update),p30(3rdmodem),p31(3rdmodemnvm),p32(3rdmodemnvmbkp) user_debug=7'
-BOARD_KERNEL_BASE := 0x608000
+BOARD_KERNEL_BASE := 0x600000
 BOARD_KERNEL_PAGESIZE := 2048
-BOARD_RECOVERY_BASE := 0x608000
+BOARD_RECOVERY_BASE := 0x600000
 
 # Inline kernel building
 TARGET_KERNEL_CONFIG := cm_hisi_3630_defconfig
@@ -106,13 +106,13 @@ BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
 TARGET_USERIMAGES_USE_EXT4 := true
 
-BOARD_CUSTOM_BOOTIMG_MK := device/huawei/h60-common/custombootimg.mk
+#BOARD_CUSTOM_BOOTIMG_MK := device/huawei/h60-common/custombootimg.mk
 
-BOARD_MKBOOTIMG_ARGS := --secureboot_area 0x1000
-BOARD_MKBOOTIMG_ARGS += --cmdline "$(BOARD_KERNEL_CMDLINE)"
-BOARD_MKBOOTIMG_ARGS += --base $(BOARD_KERNEL_BASE)
-BOARD_MKBOOTIMG_ARGS += --pagesize $(BOARD_KERNEL_PAGESIZE)
-BOARD_MKBOOTIMG_ARGS += --ramdisk_offset 0x300000
+#BOARD_MKBOOTIMG_ARGS := --secureboot_area 0x1000
+#BOARD_MKBOOTIMG_ARGS += --cmdline "$(BOARD_KERNEL_CMDLINE)"
+#BOARD_MKBOOTIMG_ARGS += --base $(BOARD_KERNEL_BASE)
+#BOARD_MKBOOTIMG_ARGS += --pagesize $(BOARD_KERNEL_PAGESIZE)
+#BOARD_MKBOOTIMG_ARGS += --ramdisk_offset 0x300000
 
 # inherit from the proprietary version
 -include vendor/huawei/h60-common/BoardConfigVendor.mk
