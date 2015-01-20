@@ -61,6 +61,18 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/media_profiles.xml:system/etc/media_profiles.xml \
     $(COMMON_PATH)/rootdir/system/etc/media_codecs.xml:system/etc/media_codecs.xml
 
+# Graphics
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.opengles.version=131072
+
+# Set default USB interface
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    persist.sys.usb.config=mtp
+
+# RIL
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    audioril.lib=libhuawei-audio-ril.so
+
 # Live Wallpapers
 PRODUCT_PACKAGES += \
     Galaxy4 \
@@ -133,15 +145,7 @@ PRODUCT_COPY_FILES += \
 
 $(call inherit-product, vendor/cm/config/nfc_enhanced.mk)
 
-# Graphics
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.opengles.version=131072
-
 PRODUCT_TAGS += dalvik.gc.type-precise
-
-# Set default USB interface
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=mtp
 
 $(call inherit-product, frameworks/native/build/phone-xhdpi-2048-dalvik-heap.mk)
 
