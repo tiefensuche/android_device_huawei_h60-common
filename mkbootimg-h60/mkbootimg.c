@@ -131,11 +131,11 @@ int main(int argc, char **argv)
     int fd;
     SHA_CTX ctx;
     uint8_t* sha;
-    unsigned base           = 0x10000000;
-    unsigned kernel_offset  = 0x00008000;
-    unsigned ramdisk_offset = 0x01000000;
-    unsigned second_offset  = 0x00f00000;
-    unsigned tags_offset    = 0x00000100;
+    unsigned base           = 0x00000000;
+    unsigned kernel_offset  = 0x00608000;
+    unsigned ramdisk_offset = 0x00300000;
+    unsigned second_offset  = 0x01500000;
+    unsigned tags_offset    = 0x00200000;
 
     argc--;
     argv++;
