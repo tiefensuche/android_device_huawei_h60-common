@@ -37,6 +37,7 @@ $(call inherit-product, device/common/gps/gps_us_supl.mk)
 PRODUCT_COPY_FILES := \
     $(COMMON_PATH)/rootdir/fstab.hi3630:root/fstab.hi3630 \
     $(COMMON_PATH)/rootdir/init.hi3630.rc:root/init.hi3630.rc \
+    $(COMMON_PATH)/rootdir/init.hi3630.usb.rc:root/init.hi3630.usb.rc \
     $(COMMON_PATH)/rootdir/ueventd.hi3630.rc:root/ueventd.hi3630.rc
 
 PRODUCT_PACKAGES += \
