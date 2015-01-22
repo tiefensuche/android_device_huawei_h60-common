@@ -45,6 +45,10 @@ PRODUCT_PACKAGES += \
 	unpackbootimg-h60
 
 # Audio
+PRODUCT_COPY_FILES += \
+    $(COMMON_PATH)/rootdir/system/etc/audio_effects.conf:system/etc/audio_effects.conf \
+    $(COMMON_PATH)/rootdir/system/etc/audio_policy.conf:system/etc/audio_policy.conf
+
 PRODUCT_PACKAGES += \
 	libtinyalsa \
 	tinyplay \
