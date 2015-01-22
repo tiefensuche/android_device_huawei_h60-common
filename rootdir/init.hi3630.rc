@@ -1,5 +1,10 @@
+import init.hi3630.usb.rc
 
 on early-init
+    mount debugfs debugfs /sys/kernel/debug
+    symlink /data/tombstones /tombstones
+
+on init
     chmod 0701 /mnt/media_rw
     chown root root /mnt/media_rw
     mkdir /mnt/shell/emulated 0700 shell shell
@@ -25,155 +30,28 @@ on early-init
     symlink /storage/usbdisk0 /usbdisk0
     symlink /storage/usbdisk0 /mnt/usbdisk0
 
-    chown media media /dev/hisi_6421_spk
-    chmod 600 /dev/hisi_6421_spk
-    chown media media /dev/tfa9887
-    chmod 0660 /dev/tfa9887
-
-    chmod 660 /dev/appvcom
-    chmod 660 /dev/appvcom1
-    chmod 660 /dev/appvcom2
-    chmod 660 /dev/appvcom3
-    chmod 660 /dev/appvcom4
-    chmod 660 /dev/appvcom5
-    chmod 660 /dev/appvcom6
-    chmod 660 /dev/appvcom7
-    chmod 660 /dev/appvcom8
-    chmod 660 /dev/appvcom9
-    chmod 660 /dev/appvcom10
-    chmod 660 /dev/appvcom11
-    chmod 660 /dev/appvcom12
-    chmod 660 /dev/appvcom13
-    chmod 660 /dev/appvcom14
-    chmod 660 /dev/appvcom15
-    chmod 660 /dev/appvcom16
-    chmod 660 /dev/appvcom17
-    chmod 660 /dev/appvcom18
-    chmod 660 /dev/appvcom19
-    chmod 660 /dev/appvcom20
-    chmod 660 /dev/appvcom21
-    chmod 660 /dev/appvcom22
-    chmod 660 /dev/appvcom23
-    chmod 660 /dev/appvcom24
-    chmod 660 /dev/appvcom25
-    chmod 660 /dev/appvcom26
-    chmod 660 /dev/appvcomCBT
-    chmod 660 /dev/appvcomTLLOG
-    chmod 660 /dev/appvcomERRLOG
-    chmod 660 /dev/appvcomLOG
-    chmod 660 /dev/appvcomLOG1
-    chown radio radio /dev/appvcom
-    chown radio radio /dev/appvcom1
-    chown radio radio /dev/appvcom5
-    chown radio radio /dev/appvcom6
-    chown radio radio /dev/appvcom10
-    chown radio radio /dev/appvcom13
-    chown radio radio /dev/appvcom14
-    chown radio radio /dev/appvcom15
-    chown media media /dev/appvcom4
-    chown media media /dev/appvcom12
-    chown system system /dev/appvcom2
-    chown system system /dev/appvcom8
-    chown system system /dev/appvcomERRLOG
-    chmod 0666 /dev/tc_ns_client
-
-on init
     mkdir /e2fslog 0755 root root
     mount tmpfs tmpfs /e2fslog mode=0755
 
     write /sys/module/block2mtd/parameters/block2mtd /dev/block/mmcblk0p6
-    wait /dev/nve0
-    chmod 0770 /dev/nve0
-    chown root system /dev/nve0
-
-    chmod 0664 /dev/ion
-    chmod 0660 /modem_log/yaffs0
 
 on fs
+    mount_all /fstab.hi3630
+
     setprop ro.crypto.fuse_sdcard true
 
-    mount_all /fstab.${ro.hardware}
-
-    mkdir /cache/logs
-    
-    start persistentLogging
-
-    wait /dev/block/mmcblk0p11
-    chown system system /dev/block/mmcblk0p11
-    chmod 0660 /dev/block/mmcblk0p11
-
-on post-fs
-    modemnvchk
-
 on post-fs-data
-    mkdir /data/share 0770 media_rw media_rw
-    chown media_rw media_rw /data/share
-    symlink /data/share /data/media
-    mount sdcardfs /data/share /mnt/shell/emulated nosuid nodev derive=legacy,reserved_mb=20
+    mkdir /data/media 0770 media_rw media_rw
+
+    # Create the directories used by the Wireless subsystem
+    mkdir /data/misc/wifi 0770 wifi wifi
+    mkdir /data/misc/wifi/sockets 0770 wifi wifi
+    mkdir /data/misc/wifi/wpa_supplicant 0770 wifi wifi
+    mkdir /data/misc/dhcp 0770 dhcp dhcp
+    # to observe dnsmasq.leases file for dhcp information of soft ap.
+    chown dhcp system /data/misc/dhcp
 
 on boot
-    mount debugfs /sys/kernel/debug /sys/kernel/debug mode=0755
-
-    mkdir /data/corefile
-    write /proc/sys/kernel/core_uses_pid 1
-    write  /proc/sys/kernel/core_pattern  /data/corefile/core-%e-%p-%t
-
-    mkdir /system/isp
-    chmod 777 /system/isp
-    chown system camera /dev/media0
-    chmod 660 /dev/media0
-    chown system camera /dev/media1
-    chmod 660 /dev/media1
-    chown system camera /dev/video0
-    chmod 660 /dev/video0
-    chown system camera /dev/v4l-subdev0
-    chmod 660 /dev/v4l-subdev0
-    chown system camera /dev/v4l-subdev1
-    chmod 660 /dev/v4l-subdev1
-    chown system camera /dev/v4l-subdev2
-    chmod 660 /dev/v4l-subdev2
-    chown system camera /dev/v4l-subdev3
-    chmod 660 /dev/v4l-subdev3
-    chown system camera /dev/v4l-subdev4
-    chmod 660 /dev/v4l-subdev4
-
-    mkdir /data/camera
-    chown system camera /data/camera
-    chmod 770 /data/camera
-    chmod 664 /data/camera/hisi_sensor0
-    chmod 664 /data/camera/hisi_sensor1
-
-    chown system system /sys/class/leds/torch/brightness
-    chmod 664 /sys/class/leds/torch/brightness
-    chown system system /sys/class/leds/torch/flash_thermal_protect
-    chmod 664 /sys/class/leds/torch/flash_thermal_protect
-    chown system system /sys/class/leds/torch/flash_led_fault
-    chmod 664 /sys/class/leds/torch/flash_led_fault
-
-    chown system camera /dev/imgsysbrg_vdec0
-    chmod 660 /dev/imgsysbrg_vdec0
-    chown media media /dev/k3vpp0
-    chmod 660 /dev/k3vpp0
-    chown media camera /dev/jpu
-    chmod 660 /dev/jpu
-
-    chown system system /sys/class/leds/lcd_backlight0/brightness
-    chmod 664 /sys/class/leds/lcd_backlight0/brightness
-    chown system system /sys/class/k3_lcd/lcd_info/hkadc_debug
-    chmod 660 /sys/class/k3_lcd/lcd_info/hkadc_debug
-
-    chown media media /sys/kernel/debug/anc_hs/charge_ctl
-
-service persistentLogging /system/bin/logcat -r 1024 -n 9 -v threadTime -f /cache/logs/log.txt
-    user system
-    group system log
-    disabled
-
-service HwCamCfgSvr /system/bin/HwCamCfgSvr hi3630 mulan
-	class main
-	user media
-	group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc mediadrm system dsm
-
 # create virtual SD card at /mnt/sdcard, based on the /data/media directory
 # daemon will drop to user/group system/media_rw after initializing
 # underlying files in /data/media wil be created with user and group media_rw (1023)
@@ -188,139 +66,71 @@ service fuse_usbdisk0 /system/bin/sdcard -u 1023 -g 1023 /mnt/media_rw/usbdisk0 
     class late_start
     disabled
 
-service thermal-daemon /system/bin/thermal-daemon
-    class main
-    user root
-    group root
+on property:init.svc.wpa_supplicant=stopped
+    stop dhcpcd
 
-service teecd /system/bin/teecd
-    class late_start
-    user root
-    group root
-
-service storedefaultkey /system/bin/storedefaultkey
+service wpa_supplicant /system/bin/wpa_supplicant \
+    -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
+    -I/system/etc/wifi/wpa_supplicant_overlay.conf \
+    -O/data/misc/wifi/sockets \
+    -e/data/misc/wifi/entropy.bin -g@android:wpa_wlan0
+    #   we will start as root and wpa_supplicant will switch to user wifi
+    #   after setting up the capabilities required for WEXT
+    #   user wifi
+    #   group wifi inet keystore
     class main
-    user root
-    group root
+    socket wpa_wlan0 dgram 660 wifi wifi u:object_r:wpa_socket:s0
+    disabled
     oneshot
 
-service bugreport /system/bin/dumpstate -d -p -z -B -o /data/data/com.android.shell/files/bugreports/bugreport
+service p2p_supplicant /system/bin/wpa_supplicant \
+    -ip2p0 -Dnl80211 -c/data/misc/wifi/p2p_supplicant.conf \
+    -I/system/etc/wifi/p2p_supplicant_overlay.conf -N \
+    -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
+    -I/system/etc/wifi/wpa_supplicant_overlay.conf \
+    -O/data/misc/wifi/sockets -puse_p2p_group_interface=1 \
+    -e/data/misc/wifi/entropy.bin -g@android:wpa_wlan0
+#   we will start as root and wpa_supplicant will switch to user wifi
+#   after setting up the capabilities required for WEXT
+#   user wifi
+#   group wifi inet keystore
+    class main
+    socket wpa_wlan0 dgram 660 wifi wifi u:object_r:wpa_socket:s0
+    disabled
+    oneshot
+
+service dhcpcd_wlan0 /system/bin/dhcpcd -aABDKL
     class main
     disabled
     oneshot
 
-on property:sys.boot_completed=1
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
-    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq ${persist.sys.hispeed_freq}
-    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/boostpulse_duration 160000
-    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/boostpulse_min_interval 100
-    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/boost_hmp_upthreshold ${persist.sys.hmp_boost_up}
-    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/boost_hmp_downthreshold ${persist.sys.hmp_boost_down}
-    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/boost_hmp 1
+service dhcpcd_p2p /system/bin/dhcpcd -aABKL
+    class main
+    disabled
+    oneshot
 
-    chown system  system /sys/devices/system/cpu/cpu0/cpufreq/interactive/boostpulse
-    chmod 0664 /sys/devices/system/cpu/cpu0/cpufreq/interactive/boostpulse
+service iprenew_wlan0 /system/bin/dhcpcd -n
+    class main
+    disabled
+    oneshot
 
-    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor ondemand
+service iprenew_p2p /system/bin/dhcpcd -n
+    class main
+    disabled
+    oneshot
 
-    write /sys/kernel/set_hmp_thresholds/enable 0
-    write /sys/kernel/hmp/up_threshold ${persist.sys.hmp_default_up}
-    write /sys/kernel/hmp/down_threshold ${persist.sys.hmp_default_down}
-    write /sys/kernel/set_hmp_thresholds/enable 1
+service dhcpcd_bt-pan /system/bin/dhcpcd -BKLG
+    disabled
+    oneshot
 
-on property::persist.sys.smart_power=2
-    setprop persist.sys.hispeed_freq 1209600
-    setprop persist.sys.hmp_boost_up 871
-    setprop persist.sys.hmp_boost_down 448
-    setprop persist.sys.hmp_default_up 978
-    setprop persist.sys.hmp_default_down 512
-    write /sys/kernel/set_hmp_thresholds/enable 0
-    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/boost_hmp 1
-    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq ${persist.sys.hispeed_freq}
-    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/boost_hmp_upthreshold ${persist.sys.hmp_boost_up}
-    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/boost_hmp_downthreshold ${persist.sys.hmp_boost_down}
-    write /sys/kernel/hmp/up_threshold ${persist.sys.hmp_default_up}
-    write /sys/kernel/hmp/down_threshold ${persist.sys.hmp_default_down}
-    write /sys/kernel/set_hmp_thresholds/enable 1
+service iprenew_bt-pan /system/bin/dhcpcd -n
+    disabled
+    oneshot
 
-on property::persist.sys.smart_power=3
-    setprop persist.sys.hispeed_freq 1305600
-    setprop persist.sys.hmp_boost_up 400
-    setprop persist.sys.hmp_boost_down 150
-    setprop persist.sys.hmp_default_up 700
-    setprop persist.sys.hmp_default_down 256
-    write /sys/kernel/set_hmp_thresholds/enable 0
-    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/boost_hmp 1
-    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq ${persist.sys.hispeed_freq}
-    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/boost_hmp_upthreshold ${persist.sys.hmp_boost_up}
-    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/boost_hmp_downthreshold ${persist.sys.hmp_boost_down}
-    write /sys/kernel/hmp/up_threshold ${persist.sys.hmp_default_up}
-    write /sys/kernel/hmp/down_threshold ${persist.sys.hmp_default_down}
-    write /sys/kernel/set_hmp_thresholds/enable 1
-
-on property::persist.sys.smart_power=4
-    setprop persist.sys.hispeed_freq 1209600
-    setprop persist.sys.hmp_default_up 1008
-    setprop persist.sys.hmp_default_down 768
-    write /sys/kernel/set_hmp_thresholds/enable 0
-    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/boost_hmp 0
-    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq ${persist.sys.hispeed_freq}
-    write /sys/kernel/hmp/up_threshold ${persist.sys.hmp_default_up}
-    write /sys/kernel/hmp/down_threshold ${persist.sys.hmp_default_down}
-    write /sys/kernel/set_hmp_thresholds/enable 1
-
-    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-    chmod 664 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-    chmod 664 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-    chown system system /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
-    chmod 664 /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
-    chown system system /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
-    chmod 664 /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
-
-    chown system system /sys/class/devfreq/e8600000.mali/max_freq
-    chmod 664 /sys/class/devfreq/e8600000.mali/max_freq
-    chown system system /sys/class/devfreq/e8600000.mali/min_freq
-    chmod 664 /sys/class/devfreq/e8600000.mali/min_freq
-    chown system system /sys/class/devfreq/e8600000.mali/mali_ondemand/animation_boost
-    chmod 664 /sys/class/devfreq/e8600000.mali/mali_ondemand/animation_boost
-    chown system system /sys/class/devfreq/e8600000.mali/mali_ondemand/animation_boost_freq
-    chmod 664 /sys/class/devfreq/e8600000.mali/mali_ondemand/animation_boost_freq
-
-    chown system system /sys/class/devfreq/fff20000.ddr_devfreq/max_freq
-    chmod 664 /sys/class/devfreq/fff20000.ddr_devfreq/max_freq
-    chown system system /sys/class/devfreq/fff20000.ddr_devfreq/min_freq
-    chmod 664 /sys/class/devfreq/fff20000.ddr_devfreq/min_freq
-
-    chown system system /sys/kernel/set_hmp_thresholds/policy
-    chmod 0664 /sys/kernel/set_hmp_thresholds/policy
-
-    chown system system /sys/devices/e852c000.panel_hdmi/edid
-    chown system system /sys/devices/e852c000.panel_hdmi/code
-    chown system system /sys/devices/e852c000.panel_hdmi/s3d
-    chown system system /sys/devices/e852c000.panel_hdmi/dst
-    chown system system /sys/devices/e852c000.panel_hdmi/hpd
-    chown system system /sys/devices/e852c000.panel_hdmi/hdcp
-    chown system system /sys/devices/e852c000.panel_hdmi/deepcolor
-    chown system system /sys/devices/e852c000.panel_hdmi/reset
-    chown system system /sys/devices/e852c000.panel_hdmi/reg
-    chown system system /sys/devices/e852c000.panel_hdmi/connected
-    chown system system /sys/devices/e852c000.panel_hdmi/s3dsupport
-    chown system system /sys/devices/e852c000.panel_hdmi/alledid
-    chown system system /sys/devices/e852c000.panel_hdmi/audiosupport
-    chown system system /sys/devices/e852c000.panel_hdmi/bufisfree
-    chown system system /sys/devices/e852c000.panel_hdmi/framerate
-    chmod 660 /sys/devices/e852c000.panel_hdmi/bufisfree
-    chmod 660 /sys/devices/e852c000.panel_hdmi/framerate
-
-	write /proc/sys/net/core/rps_sock_flow_entries 0
-	write /sys/class/net/eth_x/queues/rx-0/rps_flow_cnt 0
-	write /sys/class/net/eth_x/queues/rx-0/rps_cpus f
-	write /sys/class/net/eth_x1/queues/rx-0/rps_flow_cnt 0
-	write /sys/class/net/eth_x1/queues/rx-0/rps_cpus f
-	write /sys/class/net/eth_x2/queues/rx-0/rps_flow_cnt 0
-	write /sys/class/net/eth_x2/queues/rx-0/rps_cpus f
-	write /sys/class/net/eth_x3/queues/rx-0/rps_flow_cnt 0
-	write /sys/class/net/eth_x3/queues/rx-0/rps_cpus f
-	write /sys/class/net/eth_x4/queues/rx-0/rps_flow_cnt 0
-	write /sys/class/net/eth_x4/queues/rx-0/rps_cpus f
+# bugreport is triggered by holding down volume down, volume up and power
+service bugreport /system/bin/dumpstate -d -p -B \
+        -o /data/data/com.android.shell/files/bugreports/bugreport
+    class main
+    disabled
+    oneshot
+    keycodes 114 115 116
