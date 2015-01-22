@@ -50,6 +50,9 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/audio_policy.conf:system/etc/audio_policy.conf
 
 PRODUCT_PACKAGES += \
+	audio.a2dp.default \
+	audio.usb.default \
+	libaudioutils \
 	libtinyalsa \
 	tinyplay \
 	tinycap \
@@ -60,6 +63,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/wifi/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
     $(COMMON_PATH)/rootdir/system/etc/wifi/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf
+
+PRODUCT_PACKAGES += \
+	libnetcmdiface \
 
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
