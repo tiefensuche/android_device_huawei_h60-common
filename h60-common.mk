@@ -44,6 +44,14 @@ PRODUCT_PACKAGES += \
 	mkbootimg-h60 \
 	unpackbootimg-h60
 
+# Audio
+PRODUCT_PACKAGES += \
+	libtinyalsa \
+	tinyplay \
+	tinycap \
+	tinymix \
+	tinypcminfo
+
 # Wifi
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/wifi/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
