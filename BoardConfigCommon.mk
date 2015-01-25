@@ -63,6 +63,7 @@ BOARD_MKBOOTIMG_ARGS += --tags_offset "$(BOARD_TAGS_OFFSET)"
 # Inline kernel building
 TARGET_KERNEL_CONFIG := cm_hi3630_defconfig
 TARGET_KERNEL_SOURCE := kernel/huawei/h60
+BOARD_CUSTOM_KERNEL_MK := device/huawei/h60-common/customkernel.mk
 
 # Filesystem
 BOARD_NAND_PAGE_SIZE := 4096
