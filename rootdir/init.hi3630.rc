@@ -44,6 +44,37 @@ on post-fs-data
     # to observe dnsmasq.leases file for dhcp information of soft ap.
     chown dhcp system /data/misc/dhcp
 
+    # Lights
+    chown system system /sys/class/leds/lcd_backlight0/brightness
+    chmod 664 /sys/class/leds/lcd_backlight0/brightness
+    chown system system /sys/class/k3_lcd/lcd_info/hkadc_debug
+    chmod 660 /sys/class/k3_lcd/lcd_info/hkadc_debug
+    chown system system /sys/class/leds/torch/brightness
+    chmod 664 /sys/class/leds/torch/brightness
+    chown system system /sys/class/leds/torch/flash_thermal_protect
+    chmod 664 /sys/class/leds/torch/flash_thermal_protect
+    chown system system /sys/class/leds/torch/flash_led_fault
+    chmod 664 /sys/class/leds/torch/flash_led_fault
+
+    # HDMI
+    chown system system /sys/devices/e852c000.panel_hdmi/edid
+    chown system system /sys/devices/e852c000.panel_hdmi/code
+    chown system system /sys/devices/e852c000.panel_hdmi/s3d
+    chown system system /sys/devices/e852c000.panel_hdmi/dst
+    chown system system /sys/devices/e852c000.panel_hdmi/hpd
+    chown system system /sys/devices/e852c000.panel_hdmi/hdcp
+    chown system system /sys/devices/e852c000.panel_hdmi/deepcolor
+    chown system system /sys/devices/e852c000.panel_hdmi/reset
+    chown system system /sys/devices/e852c000.panel_hdmi/reg
+    chown system system /sys/devices/e852c000.panel_hdmi/connected
+    chown system system /sys/devices/e852c000.panel_hdmi/s3dsupport
+    chown system system /sys/devices/e852c000.panel_hdmi/alledid
+    chown system system /sys/devices/e852c000.panel_hdmi/audiosupport
+    chown system system /sys/devices/e852c000.panel_hdmi/bufisfree
+    chown system system /sys/devices/e852c000.panel_hdmi/framerate
+    chmod 660 /sys/devices/e852c000.panel_hdmi/bufisfree
+    chmod 660 /sys/devices/e852c000.panel_hdmi/framerate
+
 on boot
 # create virtual SD card at /mnt/sdcard, based on the /data/media directory
 # daemon will drop to user/group system/media_rw after initializing
