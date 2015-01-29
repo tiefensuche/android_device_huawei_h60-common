@@ -76,6 +76,9 @@ TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_EGL_CFG := device/huawei/h60-common/rootdir/system/lib/egl/egl.cfg
 USE_OPENGL_RENDERER := true
 
+# ION
+BOARD_USE_CUSTOM_LIBION := true
+
 #Audio
 BOARD_USES_ALSA_AUDIO := true
 
