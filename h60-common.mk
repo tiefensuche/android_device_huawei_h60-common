@@ -96,6 +96,12 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     audioril.lib=libhuawei-audio-ril.so
 
+# LTE, CDMA, GSM/WCDMA
+PRODUCT_PROPERTY_OVERRIDES += \
+	ro.telephony.default_network=10 \
+	telephony.lteOnCdmaDevice=1 \
+	persist.radio.mode_pref_nv10=1
+
 # Live Wallpapers
 PRODUCT_PACKAGES += \
     Galaxy4 \
