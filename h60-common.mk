@@ -83,7 +83,7 @@ PRODUCT_COPY_FILES += \
 
 # Graphics
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.opengles.version=131072
+    ro.opengles.version=196608
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.sf.lcd_density=480
@@ -95,6 +95,7 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 # RIL
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     audioril.lib=libhuawei-audio-ril.so
+#    rild.libpath=/system/lib/libbalong-ril.so
 
 # LTE, CDMA, GSM/WCDMA
 PRODUCT_PROPERTY_OVERRIDES += \

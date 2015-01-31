@@ -49,6 +49,7 @@ on fs
     mount_all /fstab.hi3630
 
     setprop ro.crypto.fuse_sdcard true
+    setprop rild.rild1_ready_to_start null
 
     wait /dev/block/platform/ff1fe000.dwmmc0/by-name/oeminfo
     start oeminfo_nvm
@@ -344,3 +345,34 @@ service oeminfo_nvm /sbin/oeminfo_nvm_server
     class core
     #critical
     ioprio rt 4
+
+service hwpged /system/bin/hwpged
+    class main
+    user root
+
+service ril-daemon1 /system/bin/rild -c 1
+    disabled
+    class main
+    socket rild1 stream 660 root radio
+    socket rild-debug1 stream 660 radio system
+    socket rild-balong-test stream 660 radio system
+    user root
+    group radio cache inet misc audio sdcard_r sdcard_rw log dsm
+
+on property:rild.readytostart=true
+    start ril-daemon1
+
+on property:rild.rild1_ready_to_start=true
+    start ril-daemon1
+
+service hdmi-daemon /system/bin/hdmi_daemon
+    class main
+    group system
+    socket hdmi_daemon stream 660 root system graphics
+    disabled
+
+service hdmi-daemon /system/bin/hdmi_daemon
+    class main
+    group system
+    socket hdmi_daemon stream 660 root system graphics
+    disabled
