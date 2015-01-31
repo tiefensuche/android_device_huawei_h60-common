@@ -83,6 +83,7 @@ BOARD_USE_CUSTOM_LIBION := true
 
 #Audio
 BOARD_USES_ALSA_AUDIO := true
+BOARD_USE_ICOS_MIRROR_SERVICE := true
 
 # Wifi
 BOARD_WLAN_DEVICE                := bcmdhd
