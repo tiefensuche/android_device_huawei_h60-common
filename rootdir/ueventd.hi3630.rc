@@ -1,13 +1,26 @@
+# Graphics
 /dev/ion    0666    system  system
 /dev/mali0    0666    system  system
-
-/dev/hifi_misc    0660    system  audio
 /dev/pri_lcd    0600	system  system
 /dev/graphics/fb2    0660    system  system
 
+# Video
+/dev/video*    0660    system  camera
+/dev/media*    0660    system  camera
+/dev/v4l-subdev*    0660    system  camera
+/dev/imgsysbrg_vdec0    0660    system  camera
+/dev/k3vpp0    0660    media  media
+/dev/jpu    0660    media  camera
+
+# Audio
+/dev/hifi_misc    0660    system  audio
 /dev/boardconfig_fs    0660    system  audio
 /dev/tfa9887    0660    media  media
 /dev/hisi_6421_spk    0660    media  media
+
+# Baseband
+/dev/vmodem     0660    radio  radio
+/dev/ttyAMA5    0660    radio  radio
 
 /dev/ttySPI0    0660    root  radio
 /dev/ttySPI1    0660    root  system
@@ -28,13 +41,6 @@
 /dev/memory_throughput    0660    system  system
 /dev/memory_throughput_up_threshold    0660    system  system
 
-/dev/video*    0660    system  camera
-/dev/media*    0660    system  camera
-/dev/v4l-subdev*    0660    system  camera
-/dev/imgsysbrg_vdec0    0660    system  camera
-/dev/k3vpp0    0660    media  media
-/dev/jpu    0660    media  camera
-
 /dev/nve0    0770    root  system
 
 /dev/appvcom*    0660    radio  radio
@@ -45,3 +51,10 @@
 /dev/appvcomERRLOG    0660    system  system
 
 /dev/tc_ns_client 0660    system  system
+
+# GPS
+/dev/ttyAMA3 0660    system  system
+
+# Bluetooth
+/dev/ttyAMA4 0660    bluetooth  bluetooth
+
