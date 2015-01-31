@@ -48,6 +48,12 @@ on init
 on fs
     mount_all /fstab.hi3630
 
+    mount ext4 /dev/block/platform/ff1fe000.dwmmc0/by-name/cust /cust wait ro nosuid nodev
+    mount ext4 /dev/block/platform/ff1fe000.dwmmc0/by-name/splash2 /splash2 wait rw nosuid nodev
+    mount ext4 /dev/block/platform/ff1fe000.dwmmc0/by-name/3rdmodem /3rdmodem noatime nosuid nodev
+    mount ext4 /dev/block/platform/ff1fe000.dwmmc0/by-name/3rdmodemnvm /3rdmodemnvm noatime nosuid nodev
+    mount ext4 /dev/block/platform/ff1fe000.dwmmc0/by-name/3rdmodemnvmbkp /3rdmodemnvmbkp noatime nosuid nodev
+
     setprop ro.crypto.fuse_sdcard true
     setprop rild.rild1_ready_to_start null
 
@@ -322,21 +328,22 @@ service bugreport /system/bin/dumpstate -d -p -B \
 
 # GPS
     exec /system/bin/gpsdeamon
-service gpsd  /system/bin/glgps -c /data/gps/gpsconfig.xml
+
+service gpsd /system/bin/glgps -c /data/gps/gpsconfig.xml
     socket gps seqpacket 660 root root
     class main
     user root
     group system
     disabled
     
-service glgpscl  /system/bin/glgpscl -c /data/gps/gpsconfig.xml
+service glgpscl /system/bin/glgpscl -c /data/gps/gpsconfig.xml
     socket gps seqpacket 660 root root
     class main
     user root
     group system
     disabled
 
-service atcmdserver  /system/bin/atcmdserver
+service atcmdserver /system/bin/atcmdserver
     class main
     oneshot
     disabled
@@ -364,12 +371,6 @@ on property:rild.readytostart=true
 
 on property:rild.rild1_ready_to_start=true
     start ril-daemon1
-
-service hdmi-daemon /system/bin/hdmi_daemon
-    class main
-    group system
-    socket hdmi_daemon stream 660 root system graphics
-    disabled
 
 service hdmi-daemon /system/bin/hdmi_daemon
     class main

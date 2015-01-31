@@ -11,11 +11,5 @@
 /dev/block/platform/ff1fe000.dwmmc0/by-name/cache               /cache              ext4        noatime,nosuid,nodev,discard                     wait,check
 /dev/block/platform/ff1fe000.dwmmc0/by-name/userdata            /data               ext4        noatime,nosuid,nodev,discard,noauto_da_alloc     wait,check,encryptable=footer,length=-16384
 
-/dev/block/platform/ff1fe000.dwmmc0/by-name/cust                /cust               ext4        noatime,nosuid,nodev                             defaults
-/dev/block/platform/ff1fe000.dwmmc0/by-name/splash2             /splash2            ext4        rw,nosuid,nodev                                  wait
-/dev/block/platform/ff1fe000.dwmmc0/by-name/3rdmodem            /3rdmodem           ext4        noatime,nosuid,nodev                             defaults
-/dev/block/platform/ff1fe000.dwmmc0/by-name/3rdmodemnvm         /3rdmodemnvm        ext4        noatime,nosuid,nodev                             defaults
-/dev/block/platform/ff1fe000.dwmmc0/by-name/3rdmodemnvmbkp      /3rdmodemnvmbkp     ext4        noatime,nosuid,nodev                             defaults
-
 /devices/ff17f000.dwmmc1/mmc_host/mmc1                          auto                auto        defaults                                         voldmanaged=sdcard1:auto,noemulatedsd
 /devices/hisi-usb-otg/usb1                                      auto                auto        defaults                                         voldmanaged=usbdisk:auto
