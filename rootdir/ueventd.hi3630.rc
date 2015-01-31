@@ -58,3 +58,5 @@
 # Bluetooth
 /dev/ttyAMA4 0660    bluetooth  bluetooth
 
+# Wifi
+/dev/rfkill 0660    wifi wifi
