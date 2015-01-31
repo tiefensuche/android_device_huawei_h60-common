@@ -71,6 +71,9 @@ on post-fs-data
     # to observe dnsmasq.leases file for dhcp information of soft ap.
     chown dhcp system /data/misc/dhcp
 
+    # Audio
+    chown media media /sys/kernel/debug/anc_hs/charge_ctl
+
     # Lights
     chown system system /sys/class/leds/lcd_backlight0/brightness
     chmod 664 /sys/class/leds/lcd_backlight0/brightness
