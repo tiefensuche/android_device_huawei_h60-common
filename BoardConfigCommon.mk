@@ -103,6 +103,7 @@ WIFI_BAND                        := 802_11_ABG
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
+BOARD_BLUEDROID_VENDOR_CONF := device/huawei/h60-common/bluetooth/vnd_h60.txt
 
 # Preload bootanimation
 TARGET_BOOTANIMATION_PRELOAD := true
