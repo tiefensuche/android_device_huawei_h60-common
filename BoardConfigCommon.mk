@@ -86,6 +86,9 @@ BOARD_USE_CUSTOM_LIBION := true
 BOARD_USES_ALSA_AUDIO := true
 BOARD_USE_ICOS_MIRROR_SERVICE := true
 
+# Media
+BOARD_USE_HUAWEI_SERVICES := true
+
 # Wifi
 BOARD_WLAN_DEVICE                := bcmdhd
 BOARD_WLAN_DEVICE_REV            := bcm4334
