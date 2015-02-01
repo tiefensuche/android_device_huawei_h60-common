@@ -106,7 +106,7 @@ on post-fs-data
     chown system system /sys/class/k3_lcd/lcd_info/hkadc_debug
     chmod 660 /sys/class/k3_lcd/lcd_info/hkadc_debug
     chown system system /sys/class/leds/torch/brightness
-    chmod 664 /sys/class/leds/torch/brightness
+    chmod 666 /sys/class/leds/torch/brightness
     chown system system /sys/class/leds/torch/flash_thermal_protect
     chmod 664 /sys/class/leds/torch/flash_thermal_protect
     chown system system /sys/class/leds/torch/flash_led_fault
