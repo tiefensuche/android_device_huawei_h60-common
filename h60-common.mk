@@ -75,7 +75,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # GPS
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/gps.conf:system/etc/gps.conf \
-    $(COMMON_PATH)/rootdir/system/etc/gpsconfig.xml:system/etc/gpsconfig.xml
+    $(COMMON_PATH)/rootdir/system/etc/gpsconfig.xml:system/etc/gpsconfig.xml \
+    $(COMMON_PATH)/rootdir/system/etc/gpsconfig_cl.xml:system/etc/gpsconfig_cl.xml \
+    $(COMMON_PATH)/rootdir/system/etc/gpsconfig_tlg.xml:system/etc/gpsconfig_tlg.xml
 
 # Media
 PRODUCT_COPY_FILES += \

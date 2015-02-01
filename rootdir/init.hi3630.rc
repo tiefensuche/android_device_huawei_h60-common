@@ -427,3 +427,7 @@ service hdmi-daemon /system/bin/hdmi_daemon
     group system
     socket hdmi_daemon stream 660 root system graphics
     disabled
+
+service thermal-daemon /system/bin/thermal-daemon
+    class main
+    group system
