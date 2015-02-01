@@ -60,3 +60,6 @@
 
 # Wifi
 /dev/rfkill 0660    wifi wifi
+
+# Sensors
+/dev/sensorhub 0660    system  system
