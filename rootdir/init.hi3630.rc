@@ -377,14 +377,17 @@ service bugreport /system/bin/dumpstate -d -p -B \
     keycodes 114 115 116
 
 # GPS
-    exec /system/bin/gpsdeamon
+service gpsdaemon /system/bin/gpsdeamon
+    class core
+    user root
+    group system
+    oneshot
 
 service gpsd /system/bin/glgps -c /data/gps/gpsconfig.xml
     socket gps seqpacket 660 root root
     class main
     user root
     group system
-    disabled
     
 service glgpscl /system/bin/glgpscl -c /data/gps/gpsconfig.xml
     socket gps seqpacket 660 root root

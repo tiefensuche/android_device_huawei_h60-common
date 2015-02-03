@@ -89,6 +89,9 @@ BOARD_USE_ICOS_MIRROR_SERVICE := true
 # Media
 BOARD_USE_HUAWEI_SERVICES := true
 
+# RIL
+BOARD_RIL_CLASS := ../../../device/huawei/h60-common/ril/
+
 # Wifi
 BOARD_WLAN_DEVICE                := bcmdhd
 BOARD_WLAN_DEVICE_REV            := bcm4334

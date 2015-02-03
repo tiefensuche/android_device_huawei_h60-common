@@ -91,13 +91,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.sf.lcd_density=480
 
-# Set default USB interface
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=mtp
-
 # RIL
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    audioril.lib=libhuawei-audio-ril.so
+PRODUCT_PROPERTY_OVERRIDES += \
+    audioril.lib=libhuawei-audio-ril.so \
+	ro.telephony.ril_class=HuaweiRIL
 #    rild.libpath=/system/lib/libbalong-ril.so
 
 # LTE, CDMA, GSM/WCDMA
@@ -183,6 +180,10 @@ PRODUCT_COPY_FILES += \
 $(call inherit-product, vendor/cm/config/nfc_enhanced.mk)
 
 PRODUCT_TAGS += dalvik.gc.type-precise
+
+# Set default USB interface
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    persist.sys.usb.config=mtp
 
 # call dalvik heap config
 $(call inherit-product-if-exists, frameworks/native/build/phone-xxhdpi-2048-dalvik-heap.mk)
