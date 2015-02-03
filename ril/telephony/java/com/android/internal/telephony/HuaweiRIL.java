@@ -20,8 +20,8 @@ import android.os.Parcel;
 import android.os.SystemProperties;
 import android.content.Context;
 
-import android.telephony.SignalStrength;
 import android.telephony.Rlog;
+import android.telephony.SignalStrength;
 
 public class HuaweiRIL extends RIL implements CommandsInterface {
 
@@ -32,10 +32,12 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
     @Override
     protected Object
     responseSignalStrength(Parcel p) {
-        int[] response = new int[14];
-        for (int i = 0 ; i < 14 ; i++) {
+        int[] response = new int[16];
+        for (int i = 0 ; i < 16 ; i++) {
             response[i] = p.readInt();
         }
+
+        boolean gsmFlag = true;
 
         int gsmSignalStrength = response[0];
         int gsmBitErrorRate = response[1];
@@ -51,8 +53,12 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
         int lteRsrq = response[11];
         int lteRssnr = response[12];
         int lteCqi = response[13];
-        boolean gsmFlag = true;
-        int mRat = 0; // added by huawei
+        int mGsm = response[14];
+        int mRat = response[15]; // added by huawei
+
+        if (mGsm == 0) {
+            gsmFlag = false;
+        }
 
         Rlog.e(RILJ_LOG_TAG, "gsmSignalStrength:" + gsmSignalStrength);
         Rlog.e(RILJ_LOG_TAG, "gsmBitErrorRate:" + gsmBitErrorRate);
@@ -68,6 +74,7 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
         Rlog.e(RILJ_LOG_TAG, "lteRssnr:" + lteRssnr);
         Rlog.e(RILJ_LOG_TAG, "lteCqi:" + lteCqi);
         Rlog.e(RILJ_LOG_TAG, "gsmFlag:" + gsmFlag);
+        Rlog.e(RILJ_LOG_TAG, "mRat:" + mRat);
 
         SignalStrength signalStrength = new SignalStrength(
             gsmSignalStrength, gsmBitErrorRate, cdmaDbm, cdmaEcio, evdoDbm,
