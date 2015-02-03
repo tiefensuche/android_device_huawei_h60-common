@@ -25,8 +25,8 @@ import android.telephony.Rlog;
 
 public class HuaweiRIL extends RIL implements CommandsInterface {
 
-    public HuaweiRIL(Context context, int networkMode, int cdmaSubscription, Integer instanceId) {
-        super(context, networkMode, cdmaSubscription, instanceId);
+    public HuaweiRIL(Context context, int networkMode, int cdmaSubscription) {
+        super(context, networkMode, cdmaSubscription);
     }
 
     @Override
@@ -73,6 +73,7 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
             gsmSignalStrength, gsmBitErrorRate, cdmaDbm, cdmaEcio, evdoDbm,
             evdoEcio, evdoSnr, lteSignalStrength, lteRsrp, lteRsrq,
             lteRssnr, lteCqi, gsmFlag);
+
         return signalStrength;
     }
 }
