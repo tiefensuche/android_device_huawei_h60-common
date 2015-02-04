@@ -118,7 +118,8 @@ PRODUCT_PACKAGES += \
 
 # Additional packages
 PRODUCT_PACKAGES += \
-	Torch
+    Torch \
+    com.android.future.usb.accessory
 
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
