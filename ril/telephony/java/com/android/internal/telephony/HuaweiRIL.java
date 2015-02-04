@@ -50,7 +50,7 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
         int evdoSnr = response[8]; // Valid values are 0-8.  8 is the highest signal to noise ratio
         int lteSignalStrength = response[9]; // 0 to 12, 63
         int lteRsrp = response[10]; // -85 to -140, -44
-        int lteRsrq = response[11];
+        int lteRsrq = response[11]; // -3 to -20
         int lteRssnr = response[12]; // 130 to -30, -200
         int lteCqi = response[13];
         int mGsm = response[14];
@@ -76,24 +76,54 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
 
         gsmSignalStrength = (gsmSignalStrength & 0xFF) / 8;
         gsmBitErrorRate = (gsmBitErrorRate < 0)?99:gsmBitErrorRate;
-        
-        Rlog.e(RILJ_LOG_TAG, "---------- INT ----------");
+
+        // Fake LTE values in case we don't get some
+        if ((gsmSignalStrength > 0 && gsmSignalStrength <= 31) || gsmSignalStrength == 99) {
+            
+            // Defaults
+            lteSignalStrength = 63;
+            lteRsrp = -140;
+            lteRsrq = -20;
+            lteRssnr = -200;
+            
+            if (gsmSignalStrength == 99) {  // None or Unknown
+                lteRsrp = -140;
+                lteRsrq = -20;
+                lteRssnr = -200;
+            } else if (gsmSignalStrength > 26) { // Great
+                lteRsrp = -85;
+                lteRsrq = -4;
+                lteRssnr = 130;
+            } else if (gsmSignalStrength > 20) { // Good
+                lteRsrp = -95;
+                lteRsrq = -8;
+                lteRssnr = 45;
+            } else if (gsmSignalStrength > 10) { // Moderate
+                lteRsrp = -105;
+                lteRsrq = -12;
+                lteRssnr = 10;
+            } else if (gsmSignalStrength >= 1) { // Poor
+                lteRsrp = -115;
+                lteRsrq = -18;
+                lteRssnr = -30;
+            }
+        }
+
+        if (lteRsrp > -44) lteSignalStrength = 63; // None or Unknown
+        else if (lteRsrp >= -85) lteSignalStrength = 12; // Great
+        else if (lteRsrp >= -95) lteSignalStrength = 8; // Good
+        else if (lteRsrp >= -105) lteSignalStrength = 5; // Moderate
+        else if (lteRsrp >= -115) lteSignalStrength = 0; // Poor
+        else if (lteRsrp >= -140) lteSignalStrength = 63; // None or Unknown
+
+        Rlog.e(RILJ_LOG_TAG, "---------- MOD ----------");
         Rlog.e(RILJ_LOG_TAG, "gsmSignalStrength:" + gsmSignalStrength);
         Rlog.e(RILJ_LOG_TAG, "gsmBitErrorRate:" + gsmBitErrorRate);
-        Rlog.e(RILJ_LOG_TAG, "mWcdmaRscp:" + mWcdmaRscp);
-        Rlog.e(RILJ_LOG_TAG, "mWcdmaEcio:" + mWcdmaEcio);
-        Rlog.e(RILJ_LOG_TAG, "cdmaDbm:" + cdmaDbm);
-        Rlog.e(RILJ_LOG_TAG, "cdmaEcio:" + cdmaEcio);
-        Rlog.e(RILJ_LOG_TAG, "evdoDbm:" + evdoDbm);
-        Rlog.e(RILJ_LOG_TAG, "evdoEcio:" + evdoEcio);
-        Rlog.e(RILJ_LOG_TAG, "evdoSnr:" + evdoSnr);
         Rlog.e(RILJ_LOG_TAG, "lteSignalStrength:" + lteSignalStrength);
         Rlog.e(RILJ_LOG_TAG, "lteRsrp:" + lteRsrp);
         Rlog.e(RILJ_LOG_TAG, "lteRsrq:" + lteRsrq);
         Rlog.e(RILJ_LOG_TAG, "lteRssnr:" + lteRssnr);
         Rlog.e(RILJ_LOG_TAG, "lteCqi:" + lteCqi);
-        Rlog.e(RILJ_LOG_TAG, "mGsm:" + mGsm);
-        Rlog.e(RILJ_LOG_TAG, "mRat:" + mRat);
         Rlog.e(RILJ_LOG_TAG, "-------------------------");
 
         SignalStrength signalStrength = new SignalStrength(
