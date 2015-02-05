@@ -37,8 +37,6 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
             response[i] = p.readInt();
         }
 
-        boolean gsmFlag = true;
-
         int gsmSignalStrength = response[0]; // Valid values are (0-31, 99) as defined in TS 27.007 8.5
         int gsmBitErrorRate = response[1]; // bit error rate (0-7, 99) as defined in TS 27.007 8.5
         int mWcdmaRscp = response[2]; // added by huawei
@@ -127,9 +125,9 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
         Rlog.e(RILJ_LOG_TAG, "-------------------------");
 
         SignalStrength signalStrength = new SignalStrength(
-            gsmSignalStrength, gsmBitErrorRate, cdmaDbm, cdmaEcio, evdoDbm,
-            evdoEcio, evdoSnr, lteSignalStrength, lteRsrp, lteRsrq,
-            lteRssnr, lteCqi, gsmFlag);
+            gsmSignalStrength, gsmBitErrorRate, cdmaDbm, cdmaEcio, evdoDbm, 
+            evdoEcio, evdoSnr, lteSignalStrength, -lteRsrp, -lteRsrq, 
+            lteRssnr, lteCqi, true);
 
         return signalStrength;
     }
