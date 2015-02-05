@@ -41,8 +41,8 @@ PRODUCT_COPY_FILES := \
     $(COMMON_PATH)/rootdir/ueventd.hi3630.rc:root/ueventd.hi3630.rc
 
 PRODUCT_PACKAGES += \
-	mkbootimg-h60 \
-	unpackbootimg-h60
+    mkbootimg-h60 \
+    unpackbootimg-h60
 
 # Audio
 PRODUCT_COPY_FILES += \
@@ -50,15 +50,15 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/audio_policy.conf:system/etc/audio_policy.conf
 
 PRODUCT_PACKAGES += \
-	audio.a2dp.default \
-	audio.usb.default \
-	audio.r_submix.default \
-	libaudioutils \
-	libtinyalsa \
-	tinyplay \
-	tinycap \
-	tinymix \
-	tinypcminfo
+    audio.a2dp.default \
+    audio.usb.default \
+    audio.r_submix.default \
+    libaudioutils \
+    libtinyalsa \
+    tinyplay \
+    tinycap \
+    tinymix \
+    tinypcminfo
 
 # Wifi
 PRODUCT_COPY_FILES += \
@@ -66,7 +66,7 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/wifi/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf
 
 PRODUCT_PACKAGES += \
-	libnetcmdiface \
+    libnetcmdiface \
 
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
@@ -104,7 +104,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     telephony.lteOnGsmDevice=1 \
     ro.telephony.default_network=9 \
-    ro.ril.def.preferred.network=9
+    ro.ril.def.preferred.network=9 \
+    gsm.current.phone-type=1
 
 # Live Wallpapers
 PRODUCT_PACKAGES += \
