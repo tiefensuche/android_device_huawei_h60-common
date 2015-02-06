@@ -16,6 +16,7 @@
 
 package com.android.internal.telephony;
 
+import android.os.Message;
 import android.os.Parcel;
 import android.os.SystemProperties;
 import android.content.Context;
@@ -24,6 +25,10 @@ import android.telephony.Rlog;
 import android.telephony.SignalStrength;
 
 public class HuaweiRIL extends RIL implements CommandsInterface {
+
+    public static final int NETWORK_TYPE_TDS = 0x11;
+    public static final int NETWORK_TYPE_TDS_HSDPA = 0x12; //=> 8
+    public static final int NETWORK_TYPE_TDS_HSUPA = 0x13; //=> 9
 
     public HuaweiRIL(Context context, int networkMode, int cdmaSubscription) {
         super(context, networkMode, cdmaSubscription);
@@ -72,51 +77,80 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
         Rlog.e(RILJ_LOG_TAG, "mGsm:" + String.format("%x", mGsm));
         Rlog.e(RILJ_LOG_TAG, "mRat:" + String.format("%x", mRat));
 
-        gsmSignalStrength = (gsmSignalStrength & 0xFF) / 8;
-        gsmBitErrorRate = (gsmBitErrorRate < 0)?99:gsmBitErrorRate;
+        if (lteRsrp != 0) // LTE
+        {
+            if (lteRsrp > -44) lteSignalStrength = 64; // None or Unknown
+            else if (lteRsrp >= -85) lteSignalStrength = 63; // Great
+            else if (lteRsrp >= -95) lteSignalStrength = 11; // Good
+            else if (lteRsrp >= -105) lteSignalStrength = 7; // Moderate
+            else if (lteRsrp >= -115) lteSignalStrength = 4; // Poor
+            else if (lteRsrp >= -140) lteSignalStrength = 64; // None or Unknown
+        }
+        else if (gsmSignalStrength == 0 && lteRsrp == 0) // 3G
+        {  
+            lteRsrp = (mWcdmaRscp & 0xFF) - 256;
+            lteRsrq = (mWcdmaEcio & 0xFF) - 256;
 
-        // Fake LTE values in case we don't get some
-        if ((gsmSignalStrength > 0 && gsmSignalStrength <= 31) || gsmSignalStrength == 99) {
-            
-            // Defaults
-            lteSignalStrength = 63;
-            lteRsrp = -140;
-            lteRsrq = -20;
-            lteRssnr = -200;
-            
-            if (gsmSignalStrength == 99) {  // None or Unknown
-                lteRsrp = -140;
-                lteRsrq = -20;
+            if (lteRsrp > -44) { // None or Unknown
+                lteSignalStrength = 64;
                 lteRssnr = -200;
-            } else if (gsmSignalStrength > 26) { // Great
-                lteRsrp = -85;
-                lteRsrq = -4;
-                lteRssnr = 130;
-            } else if (gsmSignalStrength > 20) { // Good
-                lteRsrp = -95;
-                lteRsrq = -8;
-                lteRssnr = 45;
-            } else if (gsmSignalStrength > 10) { // Moderate
-                lteRsrp = -105;
+            } else if (lteRsrp >= -85) { // Great
+                lteSignalStrength = 63;
+                lteRssnr = 300;
+            } else if (lteRsrp >= -95) { // Good
+                lteSignalStrength = 11;
+                lteRssnr = 129;
+            } else if (lteRsrp >= -105) { // Moderate
+                lteSignalStrength = 7;
+                lteRssnr = 44;
+            } else if (lteRsrp >= -115) { // Poor
+                lteSignalStrength = 4;
+                lteRssnr = 9;
+            } else if (lteRsrp >= -140) { // None or Unknown
+                lteSignalStrength = 64;
+                lteRssnr = -200;
+            }
+        }
+        else if (mWcdmaRscp == 0 && lteRsrp == 0) // 2G
+        {         
+            lteRsrp = (gsmSignalStrength & 0xFF) - 256;
+
+            if (lteRsrp > -44) { // None or Unknown
+                lteSignalStrength = 64;
+                lteRsrq = -21;
+                lteRssnr = -200;
+            } else if (lteRsrp >= -85) { // Great
+                lteSignalStrength = 63;
+                lteRsrq = -3;
+                lteRssnr = 300;
+            } else if (lteRsrp >= -95) { // Good
+                lteSignalStrength = 11;
+                lteRsrq = -7;
+                lteRssnr = 129;
+            } else if (lteRsrp >= -105) { // Moderate
+                lteSignalStrength = 7;
                 lteRsrq = -12;
-                lteRssnr = 10;
-            } else if (gsmSignalStrength >= 1) { // Poor
-                lteRsrp = -115;
-                lteRsrq = -18;
-                lteRssnr = -30;
+                lteRssnr = 44;
+            } else if (lteRsrp >= -115) { // Poor
+                lteSignalStrength = 4;
+                lteRsrq = -17;
+                lteRssnr = 9;
+            } else if (lteRsrp >= -140) { // None or Unknown
+                lteSignalStrength = 64;
+                lteRsrq = -21;
+                lteRssnr = -200;
             }
         }
 
-        if (lteRsrp > -44) lteSignalStrength = 63; // None or Unknown
-        else if (lteRsrp >= -85) lteSignalStrength = 12; // Great
-        else if (lteRsrp >= -95) lteSignalStrength = 8; // Good
-        else if (lteRsrp >= -105) lteSignalStrength = 5; // Moderate
-        else if (lteRsrp >= -115) lteSignalStrength = 0; // Poor
-        else if (lteRsrp >= -140) lteSignalStrength = 63; // None or Unknown
+        gsmSignalStrength = 0;
+        gsmBitErrorRate = 0;
+        cdmaDbm = -1;
+        cdmaEcio = -1;
+        evdoDbm = -1;
+        evdoEcio = -1;
+        evdoSnr = -1;
 
         Rlog.e(RILJ_LOG_TAG, "---------- MOD ----------");
-        Rlog.e(RILJ_LOG_TAG, "gsmSignalStrength:" + gsmSignalStrength);
-        Rlog.e(RILJ_LOG_TAG, "gsmBitErrorRate:" + gsmBitErrorRate);
         Rlog.e(RILJ_LOG_TAG, "lteSignalStrength:" + lteSignalStrength);
         Rlog.e(RILJ_LOG_TAG, "lteRsrp:" + lteRsrp);
         Rlog.e(RILJ_LOG_TAG, "lteRsrq:" + lteRsrq);

@@ -104,20 +104,30 @@ void camera_fixup_capability(android::CameraParameters *params)
 
 static char *camera_fixup_getparams(int id, const char *settings)
 {
+    const char* rotation = "0";
+
     android::CameraParameters params;
     params.unflatten(android::String8(settings));
 
-    ALOGD("%s: original parameters:", __FUNCTION__);
+    ALOGD("%s: get original parameters:", __FUNCTION__);
     params.dump();
 
     camera_fixup_capability(&params);
 
-    // fix here
+    if(params.get(android::CameraParameters::KEY_ROTATION))
+        rotation = params.get(android::CameraParameters::KEY_ROTATION);
 
-#if !LOG_NDEBUG
+     /* Fix rotation missmatch */
+     /*
+    if(strcmp(rotation, "90") == 0)
+        params.set(android::CameraParameters::KEY_ROTATION, "0");
+    else if(strcmp(rotation, "180") == 0)
+        params.set(android::CameraParameters::KEY_ROTATION, "90");
+    else if(strcmp(rotation, "270") == 0)
+        params.set(android::CameraParameters::KEY_ROTATION, "180");
+    */
     ALOGV("%s: fixed parameters:", __FUNCTION__);
     params.dump();
-#endif
 
     android::String8 strParams = params.flatten();
     char *ret = strdup(strParams.string());
@@ -130,10 +140,10 @@ static char *camera_fixup_setparams(int id, const char *settings)
     android::CameraParameters params;
     params.unflatten(android::String8(settings));
 
-    ALOGD("%s: original parameters:", __FUNCTION__);
+#if !LOG_NDEBUG
+    ALOGD("%s: set original parameters:", __FUNCTION__);
     params.dump();
-
-    // fix here
+#endif
 
 #if !LOG_NDEBUG
     ALOGV("%s: fixed parameters:", __FUNCTION__);
