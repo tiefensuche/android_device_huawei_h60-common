@@ -161,8 +161,8 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/libnfc-nxp.conf:system/etc/libnfc-nxp.conf
 
 PRODUCT_PACKAGES += \
-	libnfc \
-	libnfc_jni \
+	libnfc-nci \
+	libnfc_nci_jni \
 	Nfc \
 	Tag \
 	com.android.nfc_extras
