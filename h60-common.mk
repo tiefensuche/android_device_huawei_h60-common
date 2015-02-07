@@ -102,10 +102,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # LTE, CDMA, GSM/WCDMA
 PRODUCT_PROPERTY_OVERRIDES += \
+    telephony.lteOnCdmaDevice=0 \
     telephony.lteOnGsmDevice=1 \
-    ro.telephony.default_network=9 \
-    ro.ril.def.preferred.network=9 \
-    gsm.current.phone-type=1
+    ro.telephony.default_network=9
 
 # Live Wallpapers
 PRODUCT_PACKAGES += \
