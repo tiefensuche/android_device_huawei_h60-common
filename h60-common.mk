@@ -96,9 +96,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # RIL
 PRODUCT_PROPERTY_OVERRIDES += \
-    audioril.lib=libhuawei-audio-ril.so \
-    ro.telephony.ril_class=HuaweiRIL
-#    rild.libpath=/system/lib/libbalong-ril.so
+    audioril.lib=libhuawei-audio-ril.so
 
 # LTE, CDMA, GSM/WCDMA
 PRODUCT_PROPERTY_OVERRIDES += \
