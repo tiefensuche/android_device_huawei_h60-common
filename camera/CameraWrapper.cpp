@@ -33,8 +33,9 @@
 #include <camera/Camera.h>
 #include <camera/CameraParameters.h>
 
-static char KEY_SUPPORTED_ISO_MODES[] = "iso-values";
 static char KEY_ISO_MODE[] = "iso";
+static char KEY_SUPPORTED_ISO_MODES[] = "iso-values";
+
 
 static android::Mutex gCameraWrapperLock;
 static camera_module_t *gVendorModule = 0;
@@ -98,9 +99,10 @@ static int check_vendor_module()
 void camera_fixup_capability(android::CameraParameters *params)
 {
     ALOGV("%s", __FUNCTION__);
-    
-    // fix here
 }
+
+const static char * iso_values[] = {"auto,ISO100,ISO200,ISO400,ISO800,ISO1600",
+                                    "auto,ISO100,ISO200,ISO400,ISO800,ISO1600"};
 
 static char *camera_fixup_getparams(int id, const char *settings)
 {
@@ -109,23 +111,29 @@ static char *camera_fixup_getparams(int id, const char *settings)
     android::CameraParameters params;
     params.unflatten(android::String8(settings));
 
+#if !LOG_NDEBUG
     ALOGD("%s: get original parameters:", __FUNCTION__);
     params.dump();
+#endif
 
-    camera_fixup_capability(&params);
+    //camera_fixup_capability(&params);
 
+    // Fix supported iso modes
+    params.set(KEY_SUPPORTED_ISO_MODES, iso_values[id]);
+
+    // Fix rotation missmatch
+/*
     if(params.get(android::CameraParameters::KEY_ROTATION))
         rotation = params.get(android::CameraParameters::KEY_ROTATION);
 
-     /* Fix rotation missmatch */
-     /*
     if(strcmp(rotation, "90") == 0)
         params.set(android::CameraParameters::KEY_ROTATION, "0");
     else if(strcmp(rotation, "180") == 0)
         params.set(android::CameraParameters::KEY_ROTATION, "90");
     else if(strcmp(rotation, "270") == 0)
         params.set(android::CameraParameters::KEY_ROTATION, "180");
-    */
+*/
+
     ALOGV("%s: fixed parameters:", __FUNCTION__);
     params.dump();
 
@@ -137,6 +145,8 @@ static char *camera_fixup_getparams(int id, const char *settings)
 
 static char *camera_fixup_setparams(int id, const char *settings)
 {
+    const char* iso_mode = "auto";
+
     android::CameraParameters params;
     params.unflatten(android::String8(settings));
 
@@ -145,10 +155,24 @@ static char *camera_fixup_setparams(int id, const char *settings)
     params.dump();
 #endif
 
-#if !LOG_NDEBUG
+    // Fix setting iso modes
+    if(params.get(KEY_ISO_MODE))
+        iso_mode = params.get(KEY_ISO_MODE);
+
+    if(strcmp(iso_mode, "ISO100") == 0)
+        params.set(KEY_ISO_MODE, "100");
+    else if(strcmp(iso_mode, "ISO200") == 0)
+        params.set(KEY_ISO_MODE, "200");
+    else if(strcmp(iso_mode, "ISO400") == 0)
+        params.set(KEY_ISO_MODE, "400");
+    else if(strcmp(iso_mode, "ISO800") == 0)
+        params.set(KEY_ISO_MODE, "800");
+    else if(strcmp(iso_mode, "ISO1600") == 0)
+        params.set(KEY_ISO_MODE, "1600");
+
     ALOGV("%s: fixed parameters:", __FUNCTION__);
     params.dump();
-#endif
+
 
     android::String8 strParams = params.flatten();
     char *ret = strdup(strParams.string());
