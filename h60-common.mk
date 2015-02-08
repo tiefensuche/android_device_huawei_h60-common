@@ -79,6 +79,10 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/gpsconfig_cl.xml:system/etc/gpsconfig_cl.xml \
     $(COMMON_PATH)/rootdir/system/etc/gpsconfig_tlg.xml:system/etc/gpsconfig_tlg.xml
 
+# Lights
+PRODUCT_PACKAGES += \
+    lights.hi3630
+
 # Media
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/media_profiles.xml:system/etc/media_profiles.xml \
