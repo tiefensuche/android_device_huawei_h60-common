@@ -1,0 +1,18 @@
+on init
+    export PATH /sbin:/system/sbin:/system/bin:/system/xbin
+    export LD_LIBRARY_PATH /vendor/lib:/system/lib
+    export ANDROID_ROOT /system
+
+service chargecheck /sbin/hw_chargecheck
+    oneshot
+
+service charge /sbin/chargeservice
+    disabled 
+
+on property:shuame.charging=false
+    restart recovery
+
+on property:shuame.charging=true
+    wait /dev/block/mmcblk0p37
+    mount ext4 /dev/block/mmcblk0p37 /system rw barrier=1
+    restart charge 

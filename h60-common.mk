@@ -44,6 +44,10 @@ PRODUCT_PACKAGES += \
     mkbootimg-h60 \
     unpackbootimg-h60
 
+# Recovery Ramdisk
+PRODUCT_COPY_FILES += \
+    $(COMMON_PATH)/recovery/rootdir/init.recovery.hi3630.rc:recovery/root/init.recovery.hi3630.rc
+
 # Audio
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/audio_effects.conf:system/etc/audio_effects.conf \
