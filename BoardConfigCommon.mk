@@ -125,7 +125,7 @@ ENABLE_WEBGL := true
 # Recovery
 RECOVERY_FSTAB_VERSION := 2
 TARGET_RECOVERY_FSTAB := device/huawei/h60-common/rootdir/fstab.hi3630
-TARGET_RECOVERY_INITRC := device/huawei/h60-common/recovery/rootdir/init.rc
+#TARGET_RECOVERY_INITRC := device/huawei/h60-common/recovery/rootdir/init.rc
 BOARD_RECOVERY_SWIPE := true
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
