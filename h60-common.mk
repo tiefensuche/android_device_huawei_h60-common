@@ -41,39 +41,22 @@ PRODUCT_COPY_FILES := \
     $(COMMON_PATH)/rootdir/ueventd.hi3630.rc:root/ueventd.hi3630.rc
 
 # Recovery
-#PRODUCT_COPY_FILES += \
-#    $(COMMON_PATH)/recovery/rootdir/init.recovery.hi3630.rc:root/init.recovery.hi3630.rc \
-#    $(COMMON_PATH)/recovery/rootdir/sbin/chargeservice:root/sbin/chargeservice \
-#    $(COMMON_PATH)/recovery/rootdir/sbin/hw_chargecheck:root/sbin/hw_chargecheck \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/1080x1920/batt_level_scale.png:root/res/images/1080x1920/batt_level_scale.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/1080x1920/batt_level_top.png:root/res/images/1080x1920/batt_level_top.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/1080x1920/bg.png:root/res/images/1080x1920/bg.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/1080x1920/empty_charge.png:root/res/images/1080x1920/empty_charge.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/1080x1920/err_charge.png:root/res/images/1080x1920/err_charge.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/1080x1920/full_charge.png:root/res/images/1080x1920/full_charge.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/1080x1920/number_0.png:root/res/images/1080x1920/number_0.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/1080x1920/number_1.png:root/res/images/1080x1920/number_1.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/1080x1920/number_2.png:root/res/images/1080x1920/number_2.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/1080x1920/number_3.png:root/res/images/1080x1920/number_3.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/1080x1920/number_4.png:root/res/images/1080x1920/number_4.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/1080x1920/number_5.png:root/res/images/1080x1920/number_5.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/1080x1920/number_6.png:root/res/images/1080x1920/number_6.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/1080x1920/number_7.png:root/res/images/1080x1920/number_7.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/1080x1920/number_8.png:root/res/images/1080x1920/number_8.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/1080x1920/number_9.png:root/res/images/1080x1920/number_9.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/1080x1920/percent_5.png:root/res/images/1080x1920/percent_5.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/1080x1920/percent_10.png:root/res/images/1080x1920/percent_10.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/1080x1920/percent_sign.png:root/res/images/1080x1920/percent_sign.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/normal/level0.png:root/res/images/normal/level0.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/normal/level1.png:root/res/images/normal/level1.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/normal/level2.png:root/res/images/normal/level2.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/normal/level3.png:root/res/images/normal/level3.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/normal/level4.png:root/res/images/normal/level4.png \
-#    $(COMMON_PATH)/recovery/rootdir/res/images/normal/level5.png:root/res/images/normal/level5.png
+PRODUCT_COPY_FILES += \
+    $(COMMON_PATH)/recovery/rootdir/init.recovery.hi3630.rc:root/init.recovery.hi3630.rc \
+    $(COMMON_PATH)/recovery/rootdir/sbin/hw_chargecheck:root/sbin/hw_chargecheck \
+    $(COMMON_PATH)/recovery/rootdir/res/images/charger/battery_0.png:root/res/images/charger/battery_0.png \
+    $(COMMON_PATH)/recovery/rootdir/res/images/charger/battery_1.png:root/res/images/charger/battery_1.png \
+    $(COMMON_PATH)/recovery/rootdir/res/images/charger/battery_2.png:root/res/images/charger/battery_2.png \
+    $(COMMON_PATH)/recovery/rootdir/res/images/charger/battery_3.png:root/res/images/charger/battery_3.png \
+    $(COMMON_PATH)/recovery/rootdir/res/images/charger/battery_4.png:root/res/images/charger/battery_4.png \
+    $(COMMON_PATH)/recovery/rootdir/res/images/charger/battery_5.png:root/res/images/charger/battery_5.png \
+    $(COMMON_PATH)/recovery/rootdir/res/images/charger/battery_charge.png:root/res/images/charger/battery_charge.png \
+    $(COMMON_PATH)/recovery/rootdir/res/images/charger/battery_fail.png:root/res/images/charger/battery_fail.png
 
 PRODUCT_PACKAGES += \
     mkbootimg-h60 \
-    unpackbootimg-h60
+    unpackbootimg-h60 \
+    charger-h60
 
 # Audio
 PRODUCT_COPY_FILES += \
