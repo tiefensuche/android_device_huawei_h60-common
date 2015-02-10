@@ -119,8 +119,19 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/media_profiles.xml:system/etc/media_profiles.xml \
     $(COMMON_PATH)/rootdir/system/etc/media_codecs.xml:system/etc/media_codecs.xml
 
+PRODUCT_COPY_FILES += \
+    $(COMMON_PATH)/rootdir/system/etc/camera_config.cfg:system/etc/camera_config.cfg: \
+    $(COMMON_PATH)/rootdir/system/etc/camera_orientation.cfg:system/etc/camera_orientation.cfg \
+    $(COMMON_PATH)/rootdir/system/etc/camera_resolutions.cfg:system/etc/camera_resolutions.cfg \
+    $(COMMON_PATH)/rootdir/system/etc/camera_videosnapshot.cfg:system/etc/camera_videosnapshot.cfg
+
 PRODUCT_PACKAGES += \
     camera.hi3630
+
+# Misc
+PRODUCT_COPY_FILES += \
+    $(COMMON_PATH)/rootdir/system/etc/lte_ue_msg.cfg:system/etc/lte_ue_msg.cfg \
+    $(COMMON_PATH)/rootdir/system/etc/thermald.xml:system/etc/thermald.xml
 
 # Keylayouts
 PRODUCT_COPY_FILES += \
