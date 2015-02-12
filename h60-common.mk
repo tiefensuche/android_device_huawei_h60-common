@@ -114,11 +114,16 @@ PRODUCT_PACKAGES += \
 # Misc
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/lte_ue_msg.cfg:system/etc/lte_ue_msg.cfg \
-    $(COMMON_PATH)/rootdir/system/etc/thermald.xml:system/etc/thermald.xml
+    $(COMMON_PATH)/rootdir/system/etc/thermald.xml:system/etc/thermald.xml \
+    $(COMMON_PATH)/rootdir/system/etc/thermald_performance.xml:system/etc/thermald_performance.xml
 
 # Keylayouts
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/usr/keylayout/hi3630_keypad.kl:system/usr/keylayout/hi3630_keypad.kl \
+    $(COMMON_PATH)/rootdir/system/usr/keylayout/Vendor_1bad_Product_f016.kl:system/usr/keylayout/Vendor_1bad_Product_f016.kl \
+    $(COMMON_PATH)/rootdir/system/usr/keylayout/Vendor_1bad_Product_f023.kl:system/usr/keylayout/Vendor_1bad_Product_f023.kl \
+    $(COMMON_PATH)/rootdir/system/usr/keylayout/Vendor_1bad_Product_f027.kl:system/usr/keylayout/Vendor_1bad_Product_f027.kl \
+    $(COMMON_PATH)/rootdir/system/usr/keylayout/Vendor_1bad_Product_f036.kl:system/usr/keylayout/Vendor_1bad_Product_f036.kl \
     $(COMMON_PATH)/rootdir/system/usr/keylayout/Vendor_1d79_Product_0009.kl:system/usr/keylayout/Vendor_1d79_Product_0009.kl \
     $(COMMON_PATH)/rootdir/system/usr/keylayout/Vendor_05ac_Product_0239.kl:system/usr/keylayout/Vendor_05ac_Product_0239.kl \
     $(COMMON_PATH)/rootdir/system/usr/keylayout/Vendor_12bd_Product_d015.kl:system/usr/keylayout/Vendor_12bd_Product_d015.kl \
