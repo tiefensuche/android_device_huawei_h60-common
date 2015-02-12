@@ -100,7 +100,9 @@ PRODUCT_PACKAGES += \
 # Media
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/media_profiles.xml:system/etc/media_profiles.xml \
-    $(COMMON_PATH)/rootdir/system/etc/media_codecs.xml:system/etc/media_codecs.xml
+    $(COMMON_PATH)/rootdir/system/etc/media_codecs.xml:system/etc/media_codecs.xml \
+    $(COMMON_PATH)/rootdir/system/etc/vdec_atlas.cfg:system/etc/vdec_atlas.cfg \
+    $(COMMON_PATH)/rootdir/system/etc/topazhp.cfg:system/etc/topazhp.cfg
 
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/camera_config.cfg:system/etc/camera_config.cfg: \
