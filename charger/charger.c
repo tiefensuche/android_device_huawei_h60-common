@@ -1056,12 +1056,53 @@ static int input_callback(int fd, short revents, void *data)
 static void event_loop(struct charger *charger)
 {
     int ret;
+    char *path;
+    int online = 0;
+
+    int usb_online = 0;
+    bool usb_was_online = false;
+
+    int mains_online = 0;
+    bool mains_was_online = false;
 
     while (true) {
         int64_t now = curr_time_ms();
 
         LOGV("[%lld] event_loop()\n", now);
         handle_input_state(charger, now);
+
+        /* USB supply */
+        path = NULL;
+        online = 0;
+        ret = asprintf(&path, "/sys/devices/fff34000.pmic/battery.84/power_supply/%s/online", "USB");
+        if (ret > 0) {
+            ret = read_file_int(path, &online);
+        }
+
+        usb_was_online = usb_online;
+        usb_online = online;
+
+        if (usb_was_online && !usb_online) {
+            LOGI("USB supply offline, removing!\n");
+            coldboot(charger, "/sys/devices/fff34000.pmic/battery.84/power_supply/USB", "remove");
+        }
+
+        /* Main supply */
+        path = NULL;
+        online = 0;
+        ret = asprintf(&path, "/sys/devices/fff34000.pmic/battery.84/power_supply/%s/online", "Mains");
+        if (ret > 0) {
+            ret = read_file_int(path, &online);
+        }
+
+        mains_was_online = mains_online;
+        mains_online = online;
+
+        if (mains_was_online && !mains_online) {
+            LOGI("Main supply offline, removing!\n");
+            coldboot(charger, "/sys/devices/fff34000.pmic/battery.84/power_supply/Mains", "remove");
+        }
+
         handle_power_supply_state(charger, now);
 
         /* do screen update last in case any of the above want to start
