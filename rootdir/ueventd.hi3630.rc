@@ -2,7 +2,9 @@
 /dev/ion    0666    system  system
 /dev/mali0    0666    system  system
 /dev/pri_lcd    0600	system  system
-/dev/graphics/fb2    0660    system  system
+
+# Copybit
+/dev/graphics/fb2    0660    system  camera
 
 # Video
 /dev/video*    0660    system  camera
