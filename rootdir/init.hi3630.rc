@@ -5,7 +5,7 @@ on early-init
     mount debugfs debugfs /sys/kernel/debug
     symlink /data/tombstones /tombstones
 
-    write /dev/hwlog_switch 7
+    write /dev/hwlog_switch 128
 
 on init
     mkdir /mnt/shell/emulated 0700 shell shell
