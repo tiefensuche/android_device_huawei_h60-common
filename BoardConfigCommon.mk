@@ -56,7 +56,7 @@ TARGET_PROVIDES_INIT := true
 TARGET_PROVIDES_INIT_TARGET_RC := true
 
 # Kernel
-BOARD_KERNEL_CMDLINE  := 'ro.boot.hardware=hi3630 vmalloc=384M mem=2044m@0x200000 psci=enable androidboot.selinux=permissive mmcparts=mmcblk0:p1(vrl),p2(vrl_backup),p7(modemnvm_factory),p18(splash),p22(dfx),p23(modemnvm_backup),p24(modemnvm_img),p25(modemnvm_system),p26(modem),p27(modem_dsp),p28(modem_om),p29(modemnvm_update),p30(3rdmodem),p31(3rdmodemnvm),p32(3rdmodemnvmbkp) logctl_value=128'
+BOARD_KERNEL_CMDLINE  := 'ro.boot.hardware=hi3630 vmalloc=384M mem=2044m@0x200000 psci=enable androidboot.selinux=permissive mmcparts=mmcblk0:p1(vrl),p2(vrl_backup),p7(modemnvm_factory),p18(splash),p22(dfx),p23(modemnvm_backup),p24(modemnvm_img),p25(modemnvm_system),p26(modem),p27(modem_dsp),p28(modem_om),p29(modemnvm_update),p30(3rdmodem),p31(3rdmodemnvm),p32(3rdmodemnvmbkp) setup_logctl=128'
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_BASE     := 0x00000000
 BOARD_KERNEL_OFFSET   := 0x00608000
