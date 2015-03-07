@@ -39,6 +39,9 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
         super(context, networkMode, cdmaSubscription);
     }
 
+    static final boolean RILJ_LOGD = true;
+    static final boolean RILJ_LOGV = true; // STOPSHIP if true
+
     static final int NETWORK_TYPE_TDS = 0x11;
     static final int NETWORK_TYPE_TDS_HSDPA = 0x12; //=> 8
     static final int NETWORK_TYPE_TDS_HSUPA = 0x13; //=> 9
@@ -150,6 +153,7 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
     static final int RIL_UNSOL_HW_IMS_CALL_RING = 0xbc4;
     static final int RIL_UNSOL_HW_IMS_ON_SS = 0xbc9;
     static final int RIL_UNSOL_HW_IMS_ON_USSD = 0xbc8;
+    static final int RIL_UNSOL_HW_PLMN_SEARCH_INFO_IND = 3010;
     static final int RIL_UNSOL_HW_IMS_RESPONSE_CALL_STATE_CHANGED = 0xbc3;
     static final int RIL_UNSOL_HW_IMS_RESPONSE_HANDOVER = 0xbc6;
     static final int RIL_UNSOL_HW_IMS_RINGBACK_TONE = 0xbc5;
@@ -185,6 +189,7 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
     static String 
     responseToString(int request) {
         switch (request) {
+            case RIL_UNSOL_HW_PLMN_SEARCH_INFO_IND: return "HW_PLMN_SEARCH_INFO_IND";
             case RIL_UNSOL_HW_RESIDENT_NETWORK_CHANGED: return "HW_RESIDENT_NETWORK_CHANGED";
             case RIL_UNSOL_HW_ECCNUM: return "HW_ECCNUM";
             case RIL_UNSOL_HW_CS_CHANNEL_INFO_IND: return "HW_CS_CHANNEL_INFO_IND";
@@ -433,6 +438,8 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
 				| egrep "^ *{RIL_" \
 				| sed -re 's/\{([^,]+),[^,]+,([^}]+).+/case \1: \2(rr, p); break;/'
         */
+        case RIL_UNSOL_ON_USSD: ret = responseStrings(p); break;
+        case RIL_UNSOL_HW_PLMN_SEARCH_INFO_IND: ret =  responseVoid(p); break;
         case RIL_UNSOL_RESPONSE_CALL_STATE_CHANGED: ret =  responseVoid(p); break;
         case RIL_UNSOL_HW_RESIDENT_NETWORK_CHANGED: ret = responseVoid(p); break;
         case RIL_UNSOL_HW_ECCNUM: ret = responseVoid(p); break;
@@ -448,14 +455,28 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
         }
 
         switch(response) {
+            case RIL_UNSOL_ON_USSD:
+                String[] resp = (String[])ret;
+
+                if (resp.length < 2) {
+                    resp = new String[2];
+                    resp[0] = ((String[])ret)[0];
+                    resp[1] = null;
+                }
+                if (RILJ_LOGD) unsljLogMore(response, resp[0]);
+                if (mUSSDRegistrant != null) {
+                    mUSSDRegistrant.notifyRegistrant(
+                        new AsyncResult (null, resp, null));
+                }
+            break;
             case RIL_UNSOL_RESPONSE_CALL_STATE_CHANGED:
                 if (RILJ_LOGD) unsljLog(response);
+                mCallStateRegistrants
+                    .notifyRegistrants(new AsyncResult(null, null, null));
 
                 // FIXME
                 setModemPcm(true, null);
 
-                mCallStateRegistrants
-                    .notifyRegistrants(new AsyncResult(null, null, null));
                 break;
             case RIL_UNSOL_HW_RESIDENT_NETWORK_CHANGED:
                 if (RILJ_LOGD) unsljLog(response);
