@@ -473,7 +473,6 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
                 break;
             case RIL_UNSOL_HW_CS_CHANNEL_INFO_IND:
                 if (RILJ_LOGD) huaweiUnsljLogRet(response, ret);
-                Rlog.e(RILJ_LOG_TAG, "RIL_UNSOL_HW_CS_CHANNEL_INFO_IND: value = " + ((int[])ret)[0]);
                 setAmrWb(((int[])ret)[0]);
                 break;
         }
@@ -639,15 +638,15 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
     /**
      * Set audio parameter "incall_wb" for HD-Voice (Wideband AMR).
      *
-     * @param state: 1 = unsupported, 0 = supported.
+     * @param state: 1 = unsupported, 2 = supported.
      */
     private void setAmrWb(int state) {
-        if (state == 1) {
-            Rlog.d(RILJ_LOG_TAG, "setAmrWb(): setting audio parameter - incall_wb=off");
-            audioManager.setParameters("incall_wb=off");
-        } else {
+        if (state == 2) {
             Rlog.d(RILJ_LOG_TAG, "setAmrWb(): setting audio parameter - incall_wb=on");
             audioManager.setParameters("incall_wb=on");
+        } else {
+            Rlog.d(RILJ_LOG_TAG, "setAmrWb(): setting audio parameter - incall_wb=off");
+            audioManager.setParameters("incall_wb=off");
         }
     }
 
