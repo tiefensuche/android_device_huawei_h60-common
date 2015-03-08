@@ -31,12 +31,17 @@ import android.telephony.SignalStrength;
 import com.android.internal.telephony.dataconnection.DataProfileOmh;
 import com.android.internal.telephony.dataconnection.DataProfile;
 
+import android.media.AudioManager;
+
 import java.util.ArrayList;
 
 public class HuaweiRIL extends RIL implements CommandsInterface {
 
+    private AudioManager audioManager;
+
     public HuaweiRIL(Context context, int networkMode, int cdmaSubscription) {
         super(context, networkMode, cdmaSubscription);
+        audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
     }
 
     static final boolean RILJ_LOGD = true;
@@ -187,14 +192,18 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
     }
 
     static String 
-    responseToString(int request) {
+    huaweiResponseToString(int request) {
         switch (request) {
             case RIL_UNSOL_HW_PLMN_SEARCH_INFO_IND: return "HW_PLMN_SEARCH_INFO_IND";
             case RIL_UNSOL_HW_RESIDENT_NETWORK_CHANGED: return "HW_RESIDENT_NETWORK_CHANGED";
             case RIL_UNSOL_HW_ECCNUM: return "HW_ECCNUM";
             case RIL_UNSOL_HW_CS_CHANNEL_INFO_IND: return "HW_CS_CHANNEL_INFO_IND";
-            default: return RIL.responseToString(request);
+            default:  return "<unknown response: "+request+">";
         }
+    }
+
+    protected void huaweiUnsljLogRet(int response, Object ret) {
+        riljLog("[UNSL]< " + huaweiResponseToString(response) + " " + retToString(response, ret));
     }
 
     @Override
@@ -438,12 +447,10 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
 				| egrep "^ *{RIL_" \
 				| sed -re 's/\{([^,]+),[^,]+,([^}]+).+/case \1: \2(rr, p); break;/'
         */
-        case RIL_UNSOL_ON_USSD: ret = responseStrings(p); break;
         case RIL_UNSOL_HW_PLMN_SEARCH_INFO_IND: ret =  responseVoid(p); break;
-        case RIL_UNSOL_RESPONSE_CALL_STATE_CHANGED: ret =  responseVoid(p); break;
         case RIL_UNSOL_HW_RESIDENT_NETWORK_CHANGED: ret = responseVoid(p); break;
         case RIL_UNSOL_HW_ECCNUM: ret = responseVoid(p); break;
-        case RIL_UNSOL_HW_CS_CHANNEL_INFO_IND: ret = responseVoid(p); break;
+        case RIL_UNSOL_HW_CS_CHANNEL_INFO_IND: ret = responseInts(p); break;
 
         default:
             // Rewind the Parcel
@@ -455,28 +462,8 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
         }
 
         switch(response) {
-            case RIL_UNSOL_ON_USSD:
-                String[] resp = (String[])ret;
-
-                if (resp.length < 2) {
-                    resp = new String[2];
-                    resp[0] = ((String[])ret)[0];
-                    resp[1] = null;
-                }
-                if (RILJ_LOGD) unsljLogMore(response, resp[0]);
-                if (mUSSDRegistrant != null) {
-                    mUSSDRegistrant.notifyRegistrant(
-                        new AsyncResult (null, resp, null));
-                }
-            break;
-            case RIL_UNSOL_RESPONSE_CALL_STATE_CHANGED:
+            case RIL_UNSOL_HW_PLMN_SEARCH_INFO_IND:
                 if (RILJ_LOGD) unsljLog(response);
-                mCallStateRegistrants
-                    .notifyRegistrants(new AsyncResult(null, null, null));
-
-                // FIXME
-                setModemPcm(true, null);
-
                 break;
             case RIL_UNSOL_HW_RESIDENT_NETWORK_CHANGED:
                 if (RILJ_LOGD) unsljLog(response);
@@ -484,12 +471,20 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
             case RIL_UNSOL_HW_ECCNUM:
                 if (RILJ_LOGD) unsljLog(response);
                 break;
+            case RIL_UNSOL_HW_CS_CHANNEL_INFO_IND:
+                if (RILJ_LOGD) huaweiUnsljLogRet(response, ret);
+                Rlog.e(RILJ_LOG_TAG, "RIL_UNSOL_HW_CS_CHANNEL_INFO_IND: value = " + ((int[])ret)[0]);
+                setAmrWb(((int[])ret)[0]);
+                break;
         }
     }
 
     @Override
     protected Object
     responseSignalStrength(Parcel p) {
+
+        Rlog.e(RILJ_LOG_TAG, "responseSignalStrength(): data size = " + p.dataSize());
+
         int[] response = new int[16];
         for (int i = 0 ; i < 16 ; i++) {
             response[i] = p.readInt();
@@ -639,6 +634,21 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
         }
 
         return response;
+    }
+
+    /**
+     * Set audio parameter "incall_wb" for HD-Voice (Wideband AMR).
+     *
+     * @param state: 1 = unsupported, 0 = supported.
+     */
+    private void setAmrWb(int state) {
+        if (state == 1) {
+            Rlog.d(RILJ_LOG_TAG, "setAmrWb(): setting audio parameter - incall_wb=off");
+            audioManager.setParameters("incall_wb=off");
+        } else {
+            Rlog.d(RILJ_LOG_TAG, "setAmrWb(): setting audio parameter - incall_wb=on");
+            audioManager.setParameters("incall_wb=on");
+        }
     }
 
     public void setModemPcm(boolean on, Message result) {
