@@ -35,12 +35,16 @@ import android.media.AudioManager;
 
 import java.util.ArrayList;
 
-public class HuaweiRIL extends RIL implements CommandsInterface {
+public class HuaweiMSimRIL extends RIL implements CommandsInterface {
 
     private AudioManager audioManager;
 
-    public HuaweiRIL(Context context, int networkMode, int cdmaSubscription) {
-        super(context, networkMode, cdmaSubscription);
+    public HuaweiMSimRIL(Context context, int networkMode, int cdmaSubscription) {
+        this(context, networkMode, cdmaSubscription, null);
+    }
+
+    public HuaweiMSimRIL(Context context, int networkMode, int cdmaSubscription, Integer instanceId) {
+        super(context, networkMode, cdmaSubscription, instanceId);
         audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
     }
 
