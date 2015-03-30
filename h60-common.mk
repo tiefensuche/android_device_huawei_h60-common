@@ -147,6 +147,9 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/usr/keylayout/Vendor_2378_Product_100a.kl:system/usr/keylayout/Vendor_2378_Product_100a.kl
 
 # Graphics
+PRODUCT_PACKAGES += \
+	libsurfaceflinger_client
+
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.opengles.version=196608
 
