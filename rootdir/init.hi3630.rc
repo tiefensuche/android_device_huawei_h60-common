@@ -30,6 +30,9 @@ on init
     symlink /storage/usbdisk /usbdisk
     symlink /storage/usbdisk /mnt/usbdisk
 
+    # Preload libjhead for camera
+    export LD_PRELOAD /system/lib/libjhead.so
+
     mkdir /e2fslog 0755 root root
     mount tmpfs tmpfs /e2fslog mode=0755
 
