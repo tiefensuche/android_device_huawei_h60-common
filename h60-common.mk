@@ -81,6 +81,11 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_PACKAGES += \
     libnetcmdiface \
+    libwpa_client \
+    dhcpcd.conf \
+    hostapd \
+    wpa_supplicant \
+    wpa_supplicant.conf
 
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
