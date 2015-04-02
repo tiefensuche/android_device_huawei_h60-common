@@ -1,4 +1,4 @@
-MODEM_CROSS_COMPILE := $(ANDROID_BUILD_TOP)/prebuilts/gcc/linux-x86/arm/arm-eabi-4.7/bin/arm-eabi-
+MODEM_CROSS_COMPILE := $(ANDROID_BUILD_TOP)/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin/arm-eabi-
 
 $(KERNEL_CONFIG): $(KERNEL_OUT)
 	$(MAKE) -C $(KERNEL_SRC) CROSS_COMPILE=$(MODEM_CROSS_COMPILE) mrproper
