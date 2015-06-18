@@ -289,6 +289,12 @@ on post-fs-data
     chmod 0660 /sys/devices/platform/rnic_adapter_interface.0/rnic_adapter
     chown radio radio /sys/devices/platform/rnic_adapter_interface.0/rnic_adapter
 
+    # IRDA
+    chown system irda /dev/ttyAMA0
+    chmod 660 /dev/ttyAMA0
+    chown system irda /sys/class/irda/irda_maxim/power_cfg
+    write /sys/class/irda/irda_maxim/power_cfg 1
+
     setprop vold.post_fs_data_done 1
 
 on boot

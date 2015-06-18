@@ -65,3 +65,6 @@
 
 # Sensors
 /dev/sensorhub 0660    system  system
+
+# IRDA
+/dev/ttyAMA0 0660    system    irda

@@ -70,6 +70,9 @@ BOARD_MKBOOTIMG_ARGS += --ramdisk_offset "$(BOARD_RAMDISK_OFFSET)"
 BOARD_MKBOOTIMG_ARGS += --second_offset "$(BOARD_SECOND_OFFSET)"
 BOARD_MKBOOTIMG_ARGS += --tags_offset "$(BOARD_TAGS_OFFSET)"
 
+BOARD_KERNEL_IMAGE_NAME := zImage
+TARGET_PREBUILT_KERNEL := device/huawei/h60-common/zImage
+
 # Inline kernel building
 BOARD_CUSTOM_KERNEL_MK := device/huawei/h60-common/customkernel.mk
 
