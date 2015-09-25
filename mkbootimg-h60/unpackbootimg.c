@@ -96,8 +96,8 @@ int main(int argc, char** argv)
     }
 
     if (magic_addr > 0) {
-        printf("Secureboot area found. Size: %d\n", secureboot_area_size);
         secureboot_area_size = magic_addr -1;
+        printf("Secureboot area found. Size: %d\n", secureboot_area_size);
         fseek(f, 0, SEEK_SET);
         sprintf(tmp, "%s/%s", directory, basename(filename));
         strcat(tmp, "-secureboot");
@@ -113,10 +113,10 @@ int main(int argc, char** argv)
 
     fread(&header, sizeof(header), 1, f);
     printf("BOARD_KERNEL_CMDLINE %s\n", header.cmdline);
-    printf("BOARD_KERNEL_BASE %08x\n", header.kernel_addr - 0x00008000);
-    printf("BOARD_RAMDISK_OFFSET %08x\n", header.ramdisk_addr - header.kernel_addr + 0x00008000);
-    printf("BOARD_SECOND_OFFSET %08x\n", header.second_addr - header.kernel_addr + 0x00008000);
-    printf("BOARD_TAGS_OFFSET %08x\n",header.tags_addr - header.kernel_addr + 0x00008000);
+    printf("BOARD_KERNEL_BASE %08x\n", header.kernel_addr);
+    printf("BOARD_RAMDISK_OFFSET %08x\n", header.ramdisk_addr);
+    printf("BOARD_SECOND_OFFSET %08x\n", header.second_addr);
+    printf("BOARD_TAGS_OFFSET %08x\n",header.tags_addr);
     printf("BOARD_PAGE_SIZE %d\n", header.page_size);
     printf("BOARD_SECOND_SIZE %d\n", header.second_size);
     printf("BOARD_DT_SIZE %d\n", header.dt_size);
@@ -134,28 +134,28 @@ int main(int argc, char** argv)
     sprintf(tmp, "%s/%s", directory, basename(filename));
     strcat(tmp, "-base");
     char basetmp[200];
-    sprintf(basetmp, "%08x", header.kernel_addr - 0x00008000);
+    sprintf(basetmp, "%08x", header.kernel_addr);
     write_string_to_file(tmp, basetmp);
 
     //printf("ramdisk_offset...\n");
     sprintf(tmp, "%s/%s", directory, basename(filename));
     strcat(tmp, "-ramdisk_offset");
     char ramdisktmp[200];
-    sprintf(ramdisktmp, "%08x", header.ramdisk_addr - header.kernel_addr + 0x00008000);
+    sprintf(ramdisktmp, "%08x", header.ramdisk_addr);
     write_string_to_file(tmp, ramdisktmp);
 
     //printf("second_offset...\n");
     sprintf(tmp, "%s/%s", directory, basename(filename));
     strcat(tmp, "-second_offset");
     char secondtmp[200];
-    sprintf(secondtmp, "%08x", header.second_addr - header.kernel_addr + 0x00008000);
+    sprintf(secondtmp, "%08x", header.second_addr);
     write_string_to_file(tmp, secondtmp);
 
     //printf("tags_offset...\n");
     sprintf(tmp, "%s/%s", directory, basename(filename));
     strcat(tmp, "-tags_offset");
     char tagstmp[200];
-    sprintf(tagstmp, "%08x", header.tags_addr - header.kernel_addr + 0x00008000);
+    sprintf(tagstmp, "%08x", header.tags_addr);
     write_string_to_file(tmp, tagstmp);
 
     //printf("pagesize...\n");
