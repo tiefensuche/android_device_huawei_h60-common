@@ -627,7 +627,7 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
         return signalStrength;
     }
 
-    private ArrayList<ApnSetting> responseGetDataCallProfile(Parcel p) {
+    protected ArrayList<ApnSetting> responseGetDataCallProfile(Parcel p) {
         int nProfiles = p.readInt();
         if (RILJ_LOGD) riljLog("# data call profiles:" + nProfiles);
 
@@ -649,7 +649,7 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
         return response;
     }
 
-   private Object
+   protected Object
    responseHardwareConfig(Parcel p) {
       int num;
       ArrayList<HardwareConfig> response;
@@ -687,7 +687,7 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
       return response;
    }
 
-    private Object
+    protected Object
     responseICC_IOBase64(Parcel p) {
         int sw1, sw2;
         Message ret;

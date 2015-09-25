@@ -46,7 +46,7 @@ TARGET_BOARD_PLATFORM := hi3630
 TARGET_SOC := kirin920
 
 COMMON_GLOBAL_CFLAGS += -DHISILICON_HI3630
-COMMON_GLOBAL_CFLAGS += -DDISABLE_HW_ID_MATCH_CHECK
+#COMMON_GLOBAL_CFLAGS += -DDISABLE_HW_ID_MATCH_CHECK
 
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
@@ -74,15 +74,15 @@ BOARD_KERNEL_IMAGE_NAME := zImage
 TARGET_PREBUILT_KERNEL := device/huawei/h60-common/zImage
 
 # Inline kernel building
-BOARD_CUSTOM_KERNEL_MK := device/huawei/h60-common/customkernel.mk
+#BOARD_CUSTOM_KERNEL_MK := device/huawei/h60-common/customkernel.mk
 
 # Filesystem
 BOARD_NAND_PAGE_SIZE := 4096
 BOARD_NAND_SPARE_SIZE := 128
-BOARD_BOOTIMAGE_PARTITION_SIZE := 8388608
+BOARD_BOOTIMAGE_PARTITION_SIZE := 14680064
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 15728640
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1610612736
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 12635340800
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 12759072768
 BOARD_FLASH_BLOCK_SIZE := 4096
 TARGET_USERIMAGES_USE_EXT4 := true
 
@@ -91,18 +91,18 @@ BOARD_EGL_CFG := device/huawei/h60-common/rootdir/system/lib/egl/egl.cfg
 USE_OPENGL_RENDERER := true
 
 # ION
-BOARD_USE_CUSTOM_LIBION := true
+#BOARD_USE_CUSTOM_LIBION := true
 
 # Audio
 BOARD_USES_ALSA_AUDIO := true
-BOARD_USE_ICOS_MIRROR_SERVICE := true
+#BOARD_USE_ICOS_MIRROR_SERVICE := true
 
 # Camera
 BOARD_CAMERA_HAVE_ISO := true
 COMMON_GLOBAL_CFLAGS += -DHAVE_ISO
 
 # Media
-BOARD_USE_HUAWEI_SERVICES := true
+#BOARD_USE_HUAWEI_SERVICES := true
 
 # RIL
 BOARD_RIL_CLASS := ../../../device/huawei/h60-common/ril/
@@ -116,9 +116,9 @@ BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_bcmdhd
 BOARD_HOSTAPD_DRIVER             := NL80211
 BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_bcmdhd
 WIFI_DRIVER_FW_PATH_PARAM        := "/sys/module/bcmdhd/parameters/firmware_path"
-WIFI_DRIVER_FW_PATH_STA          := "/system/vendor/firmware/fw_bcm4334_hw.bin"
-WIFI_DRIVER_FW_PATH_AP           := "/system/vendor/firmware/fw_bcm4334_apsta_hw.bin"
-WIFI_DRIVER_FW_PATH_P2P          := "/system/vendor/firmware/fw_bcm4334_p2p_hw.bin"
+WIFI_DRIVER_FW_PATH_STA          := "/system/vendor/firmware/fw_bcm4334_hw_dualband.bin"
+WIFI_DRIVER_FW_PATH_AP           := "/system/vendor/firmware/fw_bcm4334_apsta_hw_dualband.bin"
+WIFI_DRIVER_FW_PATH_P2P          := "/system/vendor/firmware/fw_bcm4334_hw_dualband.bin"
 WIFI_BAND                        := 802_11_ABG
 
 # Bluetooth
