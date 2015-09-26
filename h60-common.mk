@@ -36,6 +36,7 @@ PRODUCT_COPY_FILES := \
     $(COMMON_PATH)/rootdir/fstab.hi3630:root/fstab.hi3630 \
     $(COMMON_PATH)/rootdir/init.hi3630.rc:root/init.hi3630.rc \
     $(COMMON_PATH)/rootdir/init.hi3630.usb.rc:root/init.hi3630.usb.rc \
+    $(COMMON_PATH)/rootdir/init.connectivity.gps.rc:root/init.connectivity.gps.rc \
     $(COMMON_PATH)/rootdir/ueventd.hi3630.rc:root/ueventd.hi3630.rc
 
 # Recovery
@@ -92,9 +93,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # GPS
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/gps.conf:system/etc/gps.conf \
-    $(COMMON_PATH)/rootdir/system/etc/gpsconfig.xml:system/etc/gpsconfig.xml \
-    $(COMMON_PATH)/rootdir/system/etc/gpsconfig_cl.xml:system/etc/gpsconfig_cl.xml \
-    $(COMMON_PATH)/rootdir/system/etc/gpsconfig_tlg.xml:system/etc/gpsconfig_tlg.xml
+    $(COMMON_PATH)/rootdir/system/etc/gps4752.conf:system/etc/gps4752.conf \
+    $(COMMON_PATH)/rootdir/system/etc/gps4752config.xml:system/etc/gps4752config.xml \
+    $(COMMON_PATH)/rootdir/system/etc/gps4752config_cl.xml:system/etc/gps4752config_cl.xml \
+    $(COMMON_PATH)/rootdir/system/etc/gps47531config.xml:system/etc/gps47531config.xml \
+    $(COMMON_PATH)/rootdir/system/etc/gps47531config_cl.xml:system/etc/gps47531config_cl.xml
 
 # Lights
 PRODUCT_PACKAGES += \
@@ -221,7 +224,9 @@ PRODUCT_COPY_FILES += \
 # NFC
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/libnfc-brcm.conf:system/etc/libnfc-brcm.conf \
-    $(COMMON_PATH)/rootdir/system/etc/libnfc-nxp.conf:system/etc/libnfc-nxp.conf
+    $(COMMON_PATH)/rootdir/system/etc/libnfc-nxp.conf:system/etc/libnfc-nxp.conf \
+    $(COMMON_PATH)/rootdir/system/etc/mogolia_libnfc-brcm.conf:system/etc/mogolia_libnfc-brcm.conf \
+    $(COMMON_PATH)/rootdir/system/etc/mogolia_libnfc-nxp.conf:system/etc/mogolia_libnfc-nxp.conf
 
 PRODUCT_PACKAGES += \
 	libnfc-nci \

@@ -6,9 +6,9 @@
        BaudRate="921600"
        
 
-       LogEnabled="true"
-       Log="JAVA"
-       LogDirectory="/data/hwzd_logs/gps/log"
+       LogEnabled="false"
+       Log="FILE"
+       LogDirectory="/data/gps/log"
        GpslogdPipePath="/data/gps/.gpslogd.pipe"
        
        GpioNStdbyPath="/sys/class/gpio/gpio95/value"
@@ -35,12 +35,12 @@
   />
 
   <hal 
-    HulaEnable="true"
+    HulaEnable="false"
     HulaSensorMask="0F"
     HulaLog="false"
-    HulaMoEnable="true" 
-    HulaTurnEnable="true"
-    HulaRawAcclGyroEnable="true"
+    HulaMoEnable="false" 
+    HulaTurnEnable="false"
+    HulaRawAcclGyroEnable="false"
   />
 <!--
     CPIgnoreStoredTcxo="true"

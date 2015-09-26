@@ -1,5 +1,6 @@
 import /init.variant.rc
 import /init.hi3630.usb.rc
+import /init.connectivity.gps.rc
 
 on early-init
     mount debugfs debugfs /sys/kernel/debug
@@ -165,13 +166,6 @@ on post-fs-data
     chmod 660 /sys/devices/e852c000.panel_hdmi/bufisfree
     chmod 660 /sys/devices/e852c000.panel_hdmi/framerate
 
-    # GPS
-    mkdir /data/gps
-    mkdir /data/gps/log
-    chown root system /data/gps
-    chmod 775 /data/gps
-    chmod 770 /data/gps/log
-
     # Baseband
     mkdir /data/hwzd_logs/3rdcp-log 0775 radio nvram
     mkdir /data/nvram/md_via 0770 root nvram
@@ -304,6 +298,9 @@ on boot
     chown system system /sys/devices/platform/bcmdhd_wlan.1/wifi_arp_timeout
 
     # Bluetooth
+    chmod 660 /dev/ttyAMA4
+    chown bluetooth bluetooth /dev/ttyAMA4
+
     setprop ro.bt.bdaddr_path "/data/misc/bluedroid/macbt"
     chown bluetooth bluetooth ro.bt.bdaddr_path
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
@@ -314,6 +311,8 @@ on boot
     chmod 664 /proc/bluetooth/sleep/proto
     chown bluetooth bluetooth /proc/bluetooth/sleep/btwrite
     chmod 664 /proc/bluetooth/sleep/btwrite
+    chown bluetooth bluetooth /proc/bluetooth/sleep/btwake
+    chmod 664 /proc/bluetooth/sleep/btwakee
 
     # Change cpu governor
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
@@ -398,26 +397,6 @@ service bugreport /system/bin/dumpstate -d -p -B \
     disabled
     oneshot
     keycodes 114 115 116
-
-# GPS
-service gpsdaemon /system/bin/gpsdeamon
-    class core
-    user root
-    group system
-    oneshot
-
-service gpsd /system/bin/glgps -c /data/gps/gpsconfig.xml
-    socket gps seqpacket 660 root root
-    class main
-    user root
-    group system
-    
-service glgpscl /system/bin/glgpscl -c /data/gps/gpsconfig.xml
-    socket gps seqpacket 660 root root
-    class main
-    user root
-    group system
-    disabled
 
 service atcmdserver /system/bin/atcmdserver
     class main

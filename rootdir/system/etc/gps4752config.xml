@@ -5,9 +5,9 @@
        PortName="/dev/ttyAMA3"
        BaudRate="921600"
        AtCmdTransportPort="/dev/appvcom9"
-       LogEnabled="true"
-       Log="JAVA"
-       LogDirectory="/sdcard/gps/log"
+       LogEnabled="false"
+       Log="FILE"
+       LogDirectory="/data/gps/log"
        GpslogdPipePath="/data/gps/.gpslogd.pipe"
        
        GpioNStdbyPath="/sys/class/gpio/gpio95/value"
@@ -33,33 +33,34 @@
        SuplMinorVersion="0"
        SuplVersion="2"
        SuplTlsEnable="true"
-	   SuplSslMethod="TLSv1"
+       SuplSslMethod="TLSv1"
        SuplSslVerify="none"
        SuplTlsCertPath="/data/cust/xml/server.pem"
        SuplTlsStopForInvPath="false"
 
        SuplLogEnable="false"
-       SuplLogFullName="/data/gps/log/supllog.txt"
+       SuplLogFullName="/sdcard/gps/log/supllog.txt"
        WakeLock="geo"
        HttpSyncLto="true"
        LtoFileName="lto2.dat"
        LtoDir="/data/gps/"
-       LtoSyncThresholdDays="1"
+       LtoSyncThresholdDays="3"
        AssertEnabled="false"
+
   />
 
   <hal 
-    HulaEnable="true"
+    HulaEnable="false"
     HulaSensorMask="0F"
     HulaLog="false"
-    HulaMoEnable="true" 
-    HulaTurnEnable="true"
-    HulaRawAcclGyroEnable="true"
+    HulaMoEnable="false" 
+    HulaTurnEnable="false"
+    HulaRawAcclGyroEnable="false"
   />
 
   <gll 
        LogPriMask="LOG_DEBUG"
-       LogFacMask="LOG_GLLAPI | LOG_NMEA" 
+       LogFacMask="LOG_DEFAULT"
        FrqPlan="FRQ_PLAN_26MHZ_2PPM_19_2MHZ_100PPB"
        RfType="GL_RF_4752_BRCM_EXT_LNA"
        WarmStandbyTimeout1Seconds="10"
@@ -69,14 +70,19 @@
   
   <gll_features
 	   EnableLowPowerEls="false"	  
-	   EnableLowPowerPmm="true"
-           EnableInternalBlanking="true" 
+	   EnableLowPowerPmm="true"	   
   />
   
 <job Id="Periodic">
     <task>
         <req_pos/>
     </task>
+</job>
+
+<job Id="FactoryTestHostWake">
+        <task Id="-" Repeat="1" >
+            <req_ftest Prn="1" FactoryTestItems="GL_FACT_TEST_HOSTWAKE" FactoryTestMode="GL_FACT_TEST_CONT" DurationSec="20" />
+        </task>
 </job>
 
 <!-- Periodic Position with the ROM almanac ignored for simulator testing -->
