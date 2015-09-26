@@ -16,6 +16,7 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES := \
+	hw_gui.cpp \
     hw_log.c
 
 LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)
