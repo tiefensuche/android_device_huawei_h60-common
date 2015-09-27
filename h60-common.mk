@@ -90,6 +90,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
     wifi.supplicant_scan_interval=15
 
+# Device state monitor
+PRODUCT_COPY_FILES += \
+    $(COMMON_PATH)/rootdir/system/etc/device_state_monitor.conf:system/etc/device_state_monitor.conf
+
 # GPS
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/gps.conf:system/etc/gps.conf \
