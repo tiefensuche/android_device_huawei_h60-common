@@ -3,7 +3,6 @@ import /init.hi3630.usb.rc
 import /init.connectivity.gps.rc
 
 on early-init
-    mount debugfs debugfs /sys/kernel/debug
     symlink /data/tombstones /tombstones
 
     write /dev/hwlog_switch 0xFF
@@ -99,6 +98,8 @@ on fs
 
     wait /dev/block/platform/ff1fe000.dwmmc0/by-name/oeminfo
     start oeminfo_nvm
+
+    mount debugfs /sys/kernel/debug /sys/kernel/debug mode=0755
 
 on post-fs-data
     mkdir /data/media 0770 media_rw media_rw
@@ -403,9 +404,13 @@ service atcmdserver /system/bin/atcmdserver
     oneshot
     disabled
 
+service teecd /system/bin/teecd
+    class late_start
+    user root
+    group root
+
 service oeminfo_nvm /system/bin/oeminfo_nvm_server
     class core
-    #critical
     ioprio rt 4
 
 service device-monitor /system/bin/device_monitor
