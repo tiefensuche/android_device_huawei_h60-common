@@ -16,3 +16,6 @@
 
 void __android_janklog_print(void) {
 }
+
+void __android_logPower_print(void) {
+}
