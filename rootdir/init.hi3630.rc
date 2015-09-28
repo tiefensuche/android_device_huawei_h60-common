@@ -5,6 +5,11 @@ import /init.connectivity.gps.rc
 on early-init
     symlink /data/tombstones /tombstones
 
+    chmod 0660 /dev/hwlog_switch
+    chown logd system /dev/hwlog_switch
+    chmod 0660 /dev/hwlog_tag
+    chown system system /dev/hwlog_tag
+
     write /dev/hwlog_switch 0xFF
 
 on init
@@ -32,6 +37,12 @@ on init
 
     # Preload libjhead for camera
     export LD_PRELOAD /system/lib/libjhead.so
+
+    # hisi
+    write /sys/module/block2mtd/parameters/block2mtd /dev/block/mmcblk0p7
+    wait /dev/nve0
+    chmod 0770 /dev/nve0
+    chown root system /dev/nve0
 
     mkdir /e2fslog 0755 root root
     mount tmpfs tmpfs /e2fslog mode=0755
@@ -103,6 +114,7 @@ on fs
 
 on post-fs-data
     mkdir /data/media 0770 media_rw media_rw
+    mkdir /data/system 0770 system system
 
     # Create the directories used by the Wireless subsystem
     mkdir /data/misc/wifi 0770 wifi wifi
@@ -111,6 +123,12 @@ on post-fs-data
     mkdir /data/misc/dhcp 0770 dhcp dhcp
     # to observe dnsmasq.leases file for dhcp information of soft ap.
     chown dhcp system /data/misc/dhcp
+
+    # Sec storage
+    mkdir /data/sec_storage
+    mount ext4 /dev/block/platform/hi_mci.0/by-name/secure_storage /data/sec_storage nosuid nodev noatime wait crypt discard,auto_da_alloc,mblk_io_submit,data=journal,context=u:object_r:teecd_data_file:s0
+    chown root root /data/sec_storage
+    chmod 600 /data/sec_storage
 
     # Audio
     chown media media /sys/kernel/debug/anc_hs/charge_ctl
@@ -431,3 +449,6 @@ service hdmi-daemon /system/bin/hdmi_daemon
 service thermal-daemon /system/bin/thermal-daemon
     class main
     group system
+
+on property:ro.hardware.alter=*
+    write /proc/sys/kernel/hardware_alter ${ro.hardware.alter}

@@ -63,9 +63,12 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/audio_policy.conf:system/etc/audio_policy.conf
 
 PRODUCT_PACKAGES += \
+    audio.primary.default \
+    audio_policy.stub \
     audio.a2dp.default \
     audio.usb.default \
     audio.r_submix.default \
+    sound_trigger.primary.hi3630 \
     libaudioutils \
     libtinyalsa \
     tinyplay \
@@ -121,7 +124,8 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/camera_videosnapshot.cfg:system/etc/camera_videosnapshot.cfg
 
 PRODUCT_PACKAGES += \
-    camera.hi3630
+    camera.default
+#    camera.hi3630
 
 # Misc
 PRODUCT_COPY_FILES += \
@@ -156,15 +160,12 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/usr/keylayout/Vendor_1689_Product_fe00.kl:system/usr/keylayout/Vendor_1689_Product_fe00.kl \
     $(COMMON_PATH)/rootdir/system/usr/keylayout/Vendor_2378_Product_100a.kl:system/usr/keylayout/Vendor_2378_Product_100a.kl
 
-# Graphics
-PRODUCT_PACKAGES += \
-	libsurfaceflinger_client
-
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.opengles.version=196608
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.sf.lcd_density=480
+    ro.sf.lcd_density=480 \
+    ro.hardware.alter=Kirin920
 
 # RIL
 PRODUCT_PROPERTY_OVERRIDES += \

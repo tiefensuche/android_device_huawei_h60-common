@@ -14,8 +14,14 @@
  * limitations under the License.
  */
 
-void __android_janklog_print(void) {
+void __android_janklog_print(int prio, const char *tag, const char *fmt, ...) {
+    return 0;
 }
 
-void __android_logPower_print(void) {
+void __android_logPower_print(int prio, const char *tag, const char *fmt, ...) {
+    return 0;
+}
+
+int __android_log_exception_write(int prio, const char *tag, const char *msg) {
+    return 0;
 }
