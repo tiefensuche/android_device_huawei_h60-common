@@ -97,6 +97,8 @@ on init
     chmod 0664 /sys/kernel/set_hmp_thresholds/policy
 
 on fs
+    loglevel 9
+
     mount_all /fstab.hi3630
 
     mount ext4 /dev/block/platform/ff1fe000.dwmmc0/by-name/cust /cust wait ro nosuid nodev
