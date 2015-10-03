@@ -42,7 +42,6 @@ PRODUCT_COPY_FILES := \
 # Recovery
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/recovery/rootdir/init.recovery.hi3630.rc:root/init.recovery.hi3630.rc \
-    $(COMMON_PATH)/recovery/rootdir/sbin/hw_chargecheck:root/sbin/hw_chargecheck \
     $(COMMON_PATH)/recovery/rootdir/res/images/charger/battery_0.png:root/res/images/charger/battery_0.png \
     $(COMMON_PATH)/recovery/rootdir/res/images/charger/battery_1.png:root/res/images/charger/battery_1.png \
     $(COMMON_PATH)/recovery/rootdir/res/images/charger/battery_2.png:root/res/images/charger/battery_2.png \
@@ -54,8 +53,7 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_PACKAGES += \
     mkbootimg-h60 \
-    unpackbootimg-h60 \
-    charger-h60
+    unpackbootimg-h60
 
 # Audio
 PRODUCT_COPY_FILES += \

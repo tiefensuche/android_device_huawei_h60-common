@@ -2,20 +2,3 @@ on init
     export PATH /sbin:/system/sbin:/system/bin:/system/xbin
     export LD_LIBRARY_PATH /vendor/lib:/system/lib
     export ANDROID_ROOT /system
-
-service chargecheck /sbin/hw_chargecheck
-    user root
-    oneshot
-
-service charger /charger-h60
-    class default
-    user root
-    disabled
-
-on property:shuame.charging=false
-    stop charger
-    start recovery
-
-on property:shuame.charging=true
-    stop recovery
-    start charger

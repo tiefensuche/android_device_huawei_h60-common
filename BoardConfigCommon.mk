@@ -135,6 +135,14 @@ TARGET_BOOTANIMATION_PRELOAD := true
 # Enable WEBGL in WebKit
 ENABLE_WEBGL := true
 
+# Selinux
+BOARD_SEPOLICY_DIRS += \
+    device/huawei/h60-common/selinux
+
+BOARD_SEPOLICY_UNION += \
+    file_contexts \
+    installd.te
+
 # Recovery
 RECOVERY_FSTAB_VERSION := 2
 TARGET_RECOVERY_FSTAB := device/huawei/h60-common/rootdir/fstab.hi3630
