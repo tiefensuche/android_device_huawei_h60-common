@@ -31,8 +31,13 @@ DEVICE_PACKAGE_OVERLAYS := $(COMMON_PATH)/overlay
 # The gps config appropriate for this device
 $(call inherit-product, device/common/gps/gps_us_supl.mk)
 
+LOCAL_KERNEL := device/huawei/h60-common/zImage
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_KERNEL):kernel
+
 # Ramdisk
-PRODUCT_COPY_FILES := \
+PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/fstab.hi3630:root/fstab.hi3630 \
     $(COMMON_PATH)/rootdir/init.hi3630.rc:root/init.hi3630.rc \
     $(COMMON_PATH)/rootdir/init.hi3630.usb.rc:root/init.hi3630.usb.rc \
@@ -252,8 +257,6 @@ endif
 
 PRODUCT_COPY_FILES += \
 	$(NFCEE_ACCESS_PATH):system/etc/nfcee_access.xml
-
-$(call inherit-product, vendor/cm/config/nfc_enhanced.mk)
 
 PRODUCT_TAGS += dalvik.gc.type-precise
 
